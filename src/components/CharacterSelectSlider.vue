@@ -2,26 +2,19 @@
   <div class="character--slider">
     <div class="character--slider-viewport">
       <ul class="character--slider-container">
-        <li class="character--slider-item">
-          こんにちは
-        </li>
-        <li class="character--slider-item">
-          Hello
-        </li>
-        <li class="character--slider-item">
-          Hello
-        </li>
-        <li class="character--slider-item">
-          Hello
-        </li>
-        <li class="character--slider-item">
-          Hello
+        <li class="character--slider-item" v-for="(item, index) in dataset" :key="index">
+          {{ item.title }}
         </li>
       </ul>
     </div>
-    <div class="character--slider-Controller">
-      <button class="prev" @click="prevSlide">こんにちは</button>
-      <button class="next" @click="nextSlide">さようなら</button>
+
+    <div class="character--slider-controller">
+      <button :class="['prev', {'disable': pageIndex === 0 ? true : false}]" @click="prevSlide">
+        <font-awesome-icon icon="angle-left"/>
+      </button>
+      <button :class="['next', {'disable': pageIndex === dataset.length - 1 ? true : false}]" @click="nextSlide">
+        <font-awesome-icon icon="angle-right"/>
+      </button>
     </div>
   </div>
 </template>
@@ -32,6 +25,9 @@ const anime = require('animejs');
 
 @Component
 export default class TitleMenu extends Vue {
+  // props
+  @Prop() public dataset!: object;
+
   // data
   public pageIndex: number = 0;
   public animation: any = false;
@@ -95,6 +91,8 @@ export default class TitleMenu extends Vue {
     let value = this.pageIndex * -100;
     let mouseX = 0;
     let pointer: any;
+
+    container.style.width = itemLength * 100 + '%';
 
     const setValue = () => {
       container.style.left = value + '%';
@@ -168,6 +166,7 @@ export default class TitleMenu extends Vue {
 
 <style lang="scss">
 .character--slider {
+  position: relative;
   height: 100%;
   user-select: none;
 
@@ -182,7 +181,6 @@ export default class TitleMenu extends Vue {
     display: flex;
     justify-content: space-around;
     position: absolute;
-    width: 500%;
     height: 100%;
     top: 0;
     left: 0;
@@ -197,6 +195,38 @@ export default class TitleMenu extends Vue {
       &:nth-of-type(#{$i}) {
         background-color: hsl($i * 10, 80%, 80%);
       }
+    }
+  }
+
+  &-controller {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+
+    button {
+      position: absolute;
+      padding: 20px;
+      background-color: transparent;
+      font-size: 4.2rem;
+      line-height: 1;
+      border: none;
+      transform: translateY(-50%);
+      cursor: pointer;
+
+      &.prev {
+        left: 0;
+      }
+
+      &.next {
+        right: 0;
+      }
+    }
+
+    .disable {
+      opacity: .4;
+      pointer-events: none;
+      cursor: default;
     }
   }
 }

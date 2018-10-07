@@ -1,24 +1,64 @@
 <template>
   <div id="app">
-    <router-view class="screen"/>
+    <transition :name="transitionName" mode="out-in" @after-enter="afterEnter" appear>
+      <router-view class="screen" ref="screen"/>
+    </transition>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Watch, Vue } from 'vue-property-decorator';
 
 @Component
-export default class App extends Vue {}
+export default class App extends Vue {
+  // data
+  public transitionName: string = 'launch-game';
+
+  // mounted
+  public mounted(): void {
+    const target = this.$el;
+    setSize();
+
+    window.addEventListener('resize', () => {
+      setSize();
+    });
+
+    function setSize(): void {
+      if (window.innerHeight > window.innerWidth / 16 * 9) {
+        target.style.width = '100vw';
+        target.style.height = '56.25vw';
+      } else {
+        target.style.width = `${100 * 16 / 9}vh`;
+        target.style.height = '100vh';
+      }
+    }
+  }
+
+  public afterEnter(): void {
+    if (this.transitionName === 'launch-game' || this.transitionName === 'back-to-title') {
+      const screen: Vue | Element | Vue[] | Element[] = this.$refs.screen;
+      screen.setTapToStartAction();
+    }
+  }
+
+  // watch
+  @Watch('$route')
+  public onRouteChange(to: any, from: any): void {
+    if (to.name === 'title') {
+      this.transitionName = `back-to-title`;
+    } else {
+      this.transitionName = `${from.name}-to-${to.name}`;
+    }
+  }
+}
 </script>
 
 
 <style lang="scss">
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
 
   .screen {
     height: 100%;

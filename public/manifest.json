@@ -1,6 +1,6 @@
 {
-  "name": "howcatch-v1.0",
-  "short_name": "howcatch-v1.0",
+  "name": "ハウキャッチ",
+  "short_name": "ハウキャッチ",
   "icons": [
     {
       "src": "/img/icons/android-chrome-192x192.png",
@@ -14,7 +14,8 @@
     }
   ],
   "start_url": "/",
-  "display": "standalone",
+  "display": "fullscreen",
+  "orientation": "landscape",
   "background_color": "#000000",
   "theme_color": "#4DBA87"
 }
