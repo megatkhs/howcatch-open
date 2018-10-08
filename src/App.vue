@@ -36,7 +36,7 @@ export default class App extends Vue {
 
   public afterEnter(): void {
     if (this.transitionName === 'launch-game' || this.transitionName === 'back-to-title') {
-      const screen: Vue | Element | Vue[] | Element[] = this.$refs.screen;
+      const screen: any = this.$refs.screen;
       screen.setTapToStartAction();
     }
   }

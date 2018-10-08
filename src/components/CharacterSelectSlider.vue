@@ -2,9 +2,7 @@
   <div class="character--slider">
     <div class="character--slider-viewport">
       <ul class="character--slider-container">
-        <li class="character--slider-item" v-for="(item, index) in dataset" :key="index">
-          {{ item.title }}
-        </li>
+        <character-select-slider-item v-for="(item, index) in dataset" :item="item" :key="index"/>
       </ul>
     </div>
 
@@ -21,9 +19,14 @@
 
 <script lang="ts">
 import { Component, Prop, Emit, Vue } from 'vue-property-decorator';
+import CharacterSelectSliderItem from '@/components/CharacterSelectSliderItem.vue';
 const anime = require('animejs');
 
-@Component
+@Component({
+  components: {
+    CharacterSelectSliderItem,
+  },
+})
 export default class TitleMenu extends Vue {
   // props
   @Prop() public dataset!: object;
@@ -47,7 +50,7 @@ export default class TitleMenu extends Vue {
       this.animation = anime({
         targets: container,
         left: [container.style.left, -(100 * this.pageIndex) + '%'],
-        duration: 500,
+        duration: 1000,
         easing: this.pageIndex === 0 || this.pageIndex === itemLength - 1 ? 'easeOutExpo' : 'easeOutBack',
         callback: () => {
           this.animation = false;
@@ -70,13 +73,17 @@ export default class TitleMenu extends Vue {
       this.animation = anime({
         targets: container,
         left: [container.style.left, -(100 * this.pageIndex) + '%'],
-        duration: 500,
+        duration: 1000,
         easing: this.pageIndex === 0 || this.pageIndex === itemLength - 1 ? 'easeOutExpo' : 'easeOutBack',
         callback: () => {
           this.animation = false;
         },
       });
     }
+  }
+
+  public slice(id: number) {
+    return ('00' + id).slice(-2);
   }
 
   // mounted

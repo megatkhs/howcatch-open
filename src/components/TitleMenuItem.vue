@@ -8,7 +8,8 @@
 import { Component, Emit, Prop, Vue } from 'vue-property-decorator';
 
 @Component
-export default class TitleMenuList extends Vue {
+export default class TitleMenuItem extends Vue {
+  // propw
   @Prop() public className!: string;
   @Prop() public label!: string;
   @Prop() public callback!: any;

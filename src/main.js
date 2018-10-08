@@ -16,6 +16,10 @@ import './registerServiceWorker';
 
 Vue.config.productionTip = false;
 
+window.addEventListener('touchmove', (event) => {
+  event.preventDefault();
+}, { passive: false });
+
 new Vue({
   router,
   store,

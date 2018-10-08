@@ -29,11 +29,11 @@ export default class CharacterSelect extends Vue {
   // data
   public characterList: object = [
     {
-      id: 0,
+      id: 1,
       title: 'つかみますおの部長レスキュー',
     },
     {
-      id: 1,
+      id: 2,
       title: 'つきの憂鬱なお部屋',
     },
   ];
@@ -43,7 +43,7 @@ export default class CharacterSelect extends Vue {
 <style lang="scss">
 .character {
   position: relative;
-  
+
   .back-page {
     position: absolute;
     top: 20px;

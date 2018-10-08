@@ -1,3 +1,5 @@
+const workboxPlugin = require('workbox-webpack-plugin');
+
 module.exports = {
   pages: {
     index: {
@@ -6,6 +8,9 @@ module.exports = {
   },
   pwa: {
     name: 'ハウキャッチ',
-    themeColor: '#000000'
+    themeColor: '#000000',
+    // workboxOptions: {
+    //   importScripts: ['/service-worker-push.js'],
+    // }
   },
 }

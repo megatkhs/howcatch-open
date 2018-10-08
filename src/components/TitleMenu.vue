@@ -1,22 +1,27 @@
 <template>
   <transition name="transition--title-menu">
     <div class="title--menu" v-if="flag">
-      <div class="title--menu-overlay" @click="close"></div>
+      <div class="title--menu-overlay" @click="closeMenu"></div>
       <div class="title--menu-window">
         <ul class="title--menu-list">
-          <TitleMenuItem
+          <title-menu-item
+            className="title--menu-list-item"
+            label="ページを更新する"
+            :callback="reloadPage"
+          />
+          <title-menu-item
             className="title--menu-list-item"
             label="お問い合わせする"
-            :callback="close"
+            :callback="closeMenu"
           />
-          <TitleMenuItem
+          <title-menu-item
             className="title--menu-list-item"
             label="データを削除する"
-            :callback="close"
+            :callback="deletePlayData"
           />
         </ul>
         <div class="title--menu-close">
-          <button @click="close">閉じる</button>
+          <button @click="closeMenu">閉じる</button>
         </div>
       </div>
     </div>
@@ -33,10 +38,42 @@ import TitleMenuItem from '@/components/TitleMenuItem.vue';
   },
 })
 export default class TitleMenu extends Vue {
+  // props
   @Prop() public flag!: boolean;
 
-  @Emit('close')
-  public close() {}
+  // emit
+  @Emit('closeMenu')
+  public closeMenu() {}
+
+  @Emit('openAlart')
+  public openAlartModal(message: string, label: string, callback: any) {}
+
+  @Emit('closeAlart')
+  public closeAlart() {}
+
+  // methods
+  public reloadPage(): void {
+    this.openAlartModal(
+      `<p>本当にページを更新しますか？</p><p class="attention">恐らくそれなりの通信料がかかります。<br>WiFi環境下での更新をお薦めします。</p>`,
+      '更新する',
+      () => {
+        window.location.reload(true);
+      },
+    );
+    this.closeMenu();
+  }
+
+  // methods
+  public deletePlayData(): void {
+    this.openAlartModal(
+      `<p>本当にプレイデータを削除しますか？</p><p class="attention">失ったデータは取り戻せません。<br>デバッカーなら消してください。</p>`,
+      '削除する',
+      () => {
+        location.reload();
+      },
+    );
+    this.closeMenu();
+  }
 }
 </script>
 
@@ -66,7 +103,8 @@ export default class TitleMenu extends Vue {
 
     &-window {
       position: relative;
-      min-width: 400px;
+      min-width: 300px;
+      max-width: 100%;
       background-color: #fff;
       box-shadow: 0 5px 20px 5px rgba(0, 0, 0, .1);
     }

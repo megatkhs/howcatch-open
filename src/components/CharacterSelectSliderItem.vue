@@ -1,0 +1,89 @@
+<template>
+  <li :class="['character--slider-item', `character--slider-item-${sliceId}`]">
+    <img class="character--background" :src="`./img/character--${sliceId}-background.png`" alt="" @error="srcError">
+    <!-- <div class="character--overlay"></div> -->
+    <img class="character--character" :src="`./img/character--${sliceId}-character.png`" alt="" @error="srcError">
+    <img class="character--title" :src="`./img/character--${sliceId}-title.svg`" alt="" @error="srcError">
+  </li>
+</template>
+
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator';
+
+@Component
+export default class CharacterSelectSliderItem extends Vue {
+  // props
+  @Prop() public item!: ({id: number});
+
+  get sliceId() {
+    return ('00' + this.item.id).slice(-2);
+  }
+
+  public srcError(event: Event) {
+    const target: any = event.target;
+    const src: any = target!.src.split('/character--');
+    const kind: string = src[1].split('-')[1];
+
+    if (src[1].split('-')[0] !== '00') {
+      target.src = `./img/character--00-${kind}`;
+    } else {
+      const type: string = kind.split('.')[0];
+      target.src = `./img/character--00-${type}.svg`;
+    }
+  }
+}
+</script>
+
+<style lang="scss">
+.character--slider-item {
+  position: relative;
+  overflow: hidden;
+
+  img {
+    position: absolute;
+  }
+
+  .character- {
+
+    &-background {
+      width: 110%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    
+    &-overlay {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 50%;
+      left: 50%;
+      background-color: #000;
+      opacity: .2;
+      transform: translate(-50%, -50%);
+    }
+
+    &-character {
+      width: 30%;
+      right: 20%;
+      bottom: -10px;
+      transform: translateX(50%);
+    }
+
+    &-title {
+      width: 45%;
+      top: 35%;
+      left: 30%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  &.character--slider-item-01 {
+    .character- {
+      &-character {
+        width: 20%;
+      }
+    }
+  }
+}
+</style>
