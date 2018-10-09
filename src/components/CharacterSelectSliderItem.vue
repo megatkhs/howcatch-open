@@ -1,9 +1,9 @@
 <template>
   <li :class="['character--slider-item', `character--slider-item-${sliceId}`]">
     <img class="character--background" :src="`./img/character--${sliceId}-background.png`" alt="" @error="srcError">
-    <!-- <div class="character--overlay"></div> -->
     <img class="character--character" :src="`./img/character--${sliceId}-character.png`" alt="" @error="srcError">
     <img class="character--title" :src="`./img/character--${sliceId}-title.svg`" alt="" @error="srcError">
+    <router-link class="character--enter" :to="{name: 'stage', params: {id: item.id}}">ENTER</router-link>
   </li>
 </template>
 
@@ -75,6 +75,20 @@ export default class CharacterSelectSliderItem extends Vue {
       top: 35%;
       left: 30%;
       transform: translate(-50%, -50%);
+    }
+
+    &-enter {
+      display: block;
+      position: absolute;
+      left: 30%;
+      bottom: 25%;
+      padding: 2rem 8rem;
+      background-color: #0af;
+      font-size: 3.2rem;
+      font-weight: bold;
+      color: #ffffff;
+      text-decoration: none;
+      transform: translate(-50%, 50%);
     }
   }
 

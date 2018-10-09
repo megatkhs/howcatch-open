@@ -27,7 +27,7 @@ const anime = require('animejs');
     CharacterSelectSliderItem,
   },
 })
-export default class TitleMenu extends Vue {
+export default class CharacterSelectSlider extends Vue {
   // props
   @Prop() public dataset!: object;
 

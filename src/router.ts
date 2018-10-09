@@ -22,5 +22,10 @@ export default new Router({
       name: 'character',
       component: () => import(/* webpackChunkName: "character" */ './views/CharacterSelect.vue'),
     },
+    {
+      path: '/character/:id',
+      name: 'stage',
+      component: () => import(/* webpackChunkName: "stage" */ './views/StageSelect.vue'),
+    },
   ],
 });

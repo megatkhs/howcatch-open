@@ -8,9 +8,6 @@
     <button class="menu-open" @click="openMenu">
       <font-awesome-icon icon="bars"/>
     </button>
-    <button class="js-push-btn">
-      おるよ
-    </button>
     <title-menu :flag="menuFlag" @closeMenu="closeMenu" @openAlart="openAlart" @closeAlart="closeAlart"/>
     <alart-modal :flag="alartFlag" :message="alartMessage" :label="alartLabel" :callback="alartCallback" @closeAlart="closeAlart"/>
   </div>
@@ -72,139 +69,133 @@ export default class Title extends Vue {
 </script>
 
 <style lang="scss">
-  .title {
-    position: relative;
-    background-color: #c8eaff;
+.title {
+  position: relative;
+  background-color: #c8eaff;
 
-    .window-texture {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 30%;
+  .window-texture {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30%;
+  }
+
+  .logo {
+    position: absolute;
+    width: 80%;
+    left: 50%;
+    top: 35%;
+    transform: translate(-50%, -50%);
+  }
+
+  .touch-area {
+    height: 100%;
+  }
+
+  .attention-text {
+    position: absolute;
+    width: 30%;
+    top: 75%;
+    left: 50%;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    animation: flashing 1s ease-out 0s infinite alternate none running;
+  }
+
+  .menu-open {
+    position: absolute;
+    display: block;
+    top: 20px;
+    left: 20px;
+    padding: 5px;
+    font-size: 3.2rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: 100ms;
+
+    &:hover,
+    &:focus {
+      cursor: pointer;
+      transform: scale(1.1);
+      z-index: 1;
     }
+
+    &:active {
+      transform: scale(.9);
+    }
+
+    svg {
+      pointer-events: none;
+    }
+  }
+}
+
+// route transition
+.launch-game,
+.back-to-title {
+  &-enter {
+    opacity: 0;
+    transform: scale(3);
 
     .logo {
-      position: absolute;
-      width: 80%;
-      left: 50%;
-      top: 35%;
-      transform: translate(-50%, -50%);
-    }
-
-    .touch-area {
-      height: 100%;
-    }
-
-    .attention-text {
-      position: absolute;
-      width: 30%;
-      top: 75%;
-      left: 50%;
-      text-align: center;
-      transform: translate(-50%, -50%);
-      animation: flashing 1s ease-out 0s infinite alternate none running;
+      opacity: 0;
+      transform: translate(-50%, -150%) scale(1.3);
     }
 
     .menu-open {
-      position: absolute;
-      display: block;
-      top: 20px;
-      left: 20px;
-      padding: 5px;
-      font-size: 3.2rem;
-      line-height: 1;
-      cursor: pointer;
-      transition: 100ms;
+      opacity: 0;
+      transform: translateY(-50%);
+    }
 
-      &:hover,
-      &:focus {
-        cursor: pointer;
-        transform: scale(1.1);
-        z-index: 1;
+    &-active {
+      transition: 2.6s, opacity 1.5s, transform 1.5s;
+
+      .logo {
+        transition: opacity 1s ease 600ms, transform 1.2s ease-out 800ms;
+      }
+      
+      .menu-open {
+        transition: opacity 600ms ease 2s, transform 600ms ease 2s;
       }
 
-      &:active {
-        transform: scale(.9);
-      }
-
-      svg {
-        pointer-events: none;
+      .attention-text {
+        animation: none;
+        opacity: 0;
       }
     }
   }
+}
 
-  .js-push-btn {
-    position: absolute;
-    right: 20px;
-    bottom: 20px;
-  }
-
-  // route transition
-  .launch-game,
-  .back-to-title {
-    &-enter {
+.title-to-character {
+  &-leave {
+    &-to {
       opacity: 0;
-      transform: scale(3);
-
-      .logo {
-        opacity: 0;
-        transform: translate(-50%, -150%) scale(1.3);
-      }
+      transform: scale(2);
 
       .menu-open {
         opacity: 0;
-        transform: translateY(-50%);
+        transform: translate(-50%, -30%) rotateY(75deg) rotateX(-45deg) scale(.6);
+      }
+    }
+
+    &-active {
+      transition: 1s, opacity 600ms, transform 800ms;
+      
+      .menu-open {
+        transition: opacity 200ms ease 100ms, transform 400ms ease;
       }
 
-      &-active {
-        transition: 2.6s, opacity 1.5s, transform 1.5s;
-
-        .logo {
-          transition: opacity 1s ease 600ms, transform 1.2s ease-out 800ms;
-        }
-        
-        .menu-open {
-          transition: opacity 600ms ease 2s, transform 600ms ease 2s;
-        }
-
-        .attention-text {
-          animation: none;
-          opacity: 0;
-        }
+      .attention-text {
+        animation: flashing .1s ease-out 0s infinite alternate none running;
       }
     }
   }
+}
 
-  .title-to-character {
-    &-leave {
-      &-to {
-        opacity: 0;
-        transform: scale(2);
-
-        .menu-open {
-          opacity: 0;
-          transform: translate(-50%, -30%) rotateY(75deg) rotateX(-45deg) scale(.6);
-        }
-      }
-
-      &-active {
-        transition: 1s, opacity 600ms, transform 800ms;
-        
-        .menu-open {
-          transition: opacity 200ms ease 100ms, transform 400ms ease;
-        }
-
-        .attention-text {
-          animation: flashing .1s ease-out 0s infinite alternate none running;
-        }
-      }
-    }
-  }
-
-  // keyframe animation
-  @keyframes flashing {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
-  }
+// keyframe animation
+@keyframes flashing {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
 </style>
 
