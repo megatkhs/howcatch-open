@@ -8,8 +8,9 @@
     <button class="menu-open" @click="openMenu">
       <font-awesome-icon icon="bars"/>
     </button>
-    <title-menu :flag="menuFlag" @closeMenu="closeMenu" @openAlart="openAlart" @closeAlart="closeAlart"/>
+    <title-menu :flag="menuFlag" @closeMenu="closeMenu" @openAlart="openAlart" @closeAlart="closeAlart" @openNotice="openNotice"/>
     <alart-modal :flag="alartFlag" :message="alartMessage" :label="alartLabel" :callback="alartCallback" @closeAlart="closeAlart"/>
+    <notice-modal :flag="noticeFlag" :message="noticeMessage" :callback="noticeCallback" @closeNotice="closeNotice"/>
   </div>
 </template>
 
@@ -17,11 +18,13 @@
 import { Component, Vue } from 'vue-property-decorator';
 import TitleMenu from '@/components/TitleMenu.vue';
 import AlartModal from '@/components/AlartModal.vue';
+import NoticeModal from '@/components/NoticeModal.vue';
 
 @Component({
   components: {
     TitleMenu,
     AlartModal,
+    NoticeModal,
   },
 })
 export default class Title extends Vue {
@@ -31,6 +34,9 @@ export default class Title extends Vue {
   public alartMessage: string = '';
   public alartLabel: string = '';
   public alartCallback: any = this.closeAlart;
+  public noticeFlag: boolean = false;
+  public noticeMessage: string = '';
+  public noticeCallback: any = this.closeNotice;
 
   // methods
   public gameStart() {
@@ -54,6 +60,16 @@ export default class Title extends Vue {
 
   public closeAlart() {
     this.alartFlag = false;
+  }
+
+  public openNotice(message: string, callback: any) {
+    this.noticeMessage = message;
+    this.noticeCallback = callback;
+    this.noticeFlag = true;
+  }
+
+  public closeNotice() {
+    this.noticeFlag = false;
   }
 
   public setTapToStartAction() {
@@ -105,9 +121,9 @@ export default class Title extends Vue {
   .menu-open {
     position: absolute;
     display: block;
-    top: 20px;
-    left: 20px;
-    padding: 5px;
+    top: 2rem;
+    left: 2rem;
+    padding: .5rem;
     font-size: 3.2rem;
     line-height: 1;
     cursor: pointer;

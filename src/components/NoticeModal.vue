@@ -1,12 +1,11 @@
 <template>
   <transition name="transition--alart-modal">
-    <div class="alart--modal" v-if="flag">
-      <div class="alart--modal-overlay" @click="closeAlart"></div>
-      <div class="alart--modal-window">
+    <div class="notice--modal" v-if="flag">
+      <div class="notice--modal-overlay"></div>
+      <div class="notice--modal-window">
         <div class="message" v-html="message"/>
-        <div class="alart--modal-buttons">
-          <button @click="runCallback">{{ label }}</button>
-          <button @click="closeAlart">キャンセル</button>
+        <div class="notice--modal-buttons">
+          <button @click="runCallback">閉じる</button>
         </div>
       </div>
     </div>
@@ -17,18 +16,16 @@
 import { Component, Emit, Prop, Vue } from 'vue-property-decorator';
 
 @Component
-export default class AlartModal extends Vue {
+export default class NoticeModal extends Vue {
   // props
   @Prop() public flag!: boolean;
   @Prop() public message!: string;
-  @Prop() public label!: string;
   @Prop() public callback!: any;
 
   // emit
-  @Emit('closeAlart')
-  public closeAlart() {}
+  @Emit('closeNotice')
+  public closeNotice() {}
 
-  @Emit('closeAlart')
   public runCallback() {
     this.callback();
   }
@@ -36,7 +33,7 @@ export default class AlartModal extends Vue {
 </script>
 
 <style lang="scss">
-  .alart--modal {
+  .notice--modal {
     position: fixed;
     width: 100%;
     height: 100%;
@@ -89,7 +86,7 @@ export default class AlartModal extends Vue {
 
       button {
         display: inline-block;
-        width: 50%;
+        width: 100%;
         height: 100%;
         font-size: 1.4rem;
         transition: 100ms;
@@ -113,7 +110,7 @@ export default class AlartModal extends Vue {
   */
   .transition--alart-modal {
     &-enter {
-      .alart--modal {
+      .notice--modal {
         &-overlay {
           opacity: 0;
         }
@@ -123,7 +120,7 @@ export default class AlartModal extends Vue {
       }
 
       &-to {
-        .alart--modal {
+        .notice--modal {
           &-overlay {
             transition: 300ms;
           }
@@ -140,7 +137,7 @@ export default class AlartModal extends Vue {
 
     &-leave {
       &-to {
-        .alart--modal {
+        .notice--modal {
           &-overlay {
             opacity: 0;
             transition: 300ms;

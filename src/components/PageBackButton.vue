@@ -8,7 +8,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component
-export default class AlartModal extends Vue {
+export default class PageBackButton extends Vue {
   // methods
   public backPage() {
     this.$router.go(-1);

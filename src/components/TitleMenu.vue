@@ -51,6 +51,9 @@ export default class TitleMenu extends Vue {
   @Emit('closeAlart')
   public closeAlart() {}
 
+  @Emit('openNotice')
+  public openNoticeModal(message: string, callback: any) {}
+
   // methods
   public reloadPage(): void {
     this.openAlartModal(
@@ -69,10 +72,19 @@ export default class TitleMenu extends Vue {
       `<p>本当にプレイデータを削除しますか？</p><p class="attention">失ったデータは取り戻せません。<br>デバッカーなら消してください。</p>`,
       '削除する',
       () => {
-        location.reload();
+        const deleteReq = indexedDB.deleteDatabase(this.dbName);
+
+        this.openNoticeModal(`<p>消しちゃいました。</p>`, () => {
+          window.location.reload();
+        });
       },
     );
     this.closeMenu();
+  }
+
+  // computed
+  get dbName(): string {
+    return this.$store.state.dbName;
   }
 }
 </script>
@@ -103,28 +115,29 @@ export default class TitleMenu extends Vue {
 
     &-window {
       position: relative;
-      min-width: 300px;
+      min-width: 30rem;
       max-width: 100%;
       background-color: #fff;
-      box-shadow: 0 5px 20px 5px rgba(0, 0, 0, .1);
+      box-shadow: 0 5px 2rem 5px rgba(0, 0, 0, .1);
     }
 
     &-list {
       list-style: none;
-      padding: 20px 20px 10px;
+      padding: 2rem 2rem 1rem;
 
       &-item {
         width: 100%;
-        height: 50px;
+        height: 5rem;
 
         &:nth-last-of-type(n + 2) {
-          margin-bottom: 10px;
+          margin-bottom: 1rem;
         }
 
         button {
           display: block;
           width: 100%;
           height: 100%;
+          font-size: 1.4rem;
           transition: 100ms;
 
           &:hover,
@@ -142,8 +155,8 @@ export default class TitleMenu extends Vue {
     }
 
     &-close {
-      padding: 10px 20px;
-      height: 50px;
+      padding: 1rem 2rem;
+      height: 5rem;
       background-color: #3d96df;
       box-sizing: content-box;
 
@@ -151,6 +164,7 @@ export default class TitleMenu extends Vue {
         display: block;
         width: 100%;
         height: 100%;
+        font-size: 1.4rem;
         transition: 100ms;
 
         &:hover,

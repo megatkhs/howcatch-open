@@ -16,7 +16,8 @@ export default class App extends Vue {
 
   // mounted
   public mounted(): void {
-    const target = this.$el;
+    const target: any = this.$el;
+    const html: any = document!.documentElement;
     setSize();
 
     window.addEventListener('resize', () => {
@@ -27,9 +28,11 @@ export default class App extends Vue {
       if (window.innerHeight > window.innerWidth / 16 * 9) {
         target.style.width = '100vw';
         target.style.height = '56.25vw';
+        html.style.fontSize = '1.5vw';
       } else {
         target.style.width = `${100 * 16 / 9}vh`;
         target.style.height = '100vh';
+        html.style.fontSize = `${8 / 3}vh`;
       }
     }
   }

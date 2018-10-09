@@ -29,17 +29,10 @@ import PageBackButton from '@/components/PageBackButton.vue';
   },
 })
 export default class CharacterSelect extends Vue {
-  // data
-  public characterList: object = [
-    {
-      id: 1,
-      title: 'つかみますおの部長レスキュー',
-    },
-    {
-      id: 2,
-      title: 'つきの憂鬱なお部屋',
-    },
-  ];
+  // computed
+  get characterList(): object {
+    return this.$store.state.characters;
+  }
 }
 </script>
 
@@ -49,8 +42,8 @@ export default class CharacterSelect extends Vue {
 
   .page-back {
     position: absolute;
-    top: 20px;
-    left: 20px;
+    top: 2rem;
+    left: 2rem;
   }
 }
 </style>

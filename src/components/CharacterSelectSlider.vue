@@ -213,7 +213,7 @@ export default class CharacterSelectSlider extends Vue {
 
     button {
       position: absolute;
-      padding: 20px;
+      padding: 2rem;
       background-color: transparent;
       font-size: 4.2rem;
       line-height: 1;

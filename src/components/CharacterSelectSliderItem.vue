@@ -1,8 +1,9 @@
 <template>
   <li :class="['character--slider-item', `character--slider-item-${sliceId}`]">
     <img class="character--background" :src="`./img/character--${sliceId}-background.png`" alt="" @error="srcError">
-    <img class="character--character" :src="`./img/character--${sliceId}-character.png`" alt="" @error="srcError">
+    <img class="character--image" :src="`./img/character--${sliceId}-character.png`" alt="" @error="srcError">
     <img class="character--title" :src="`./img/character--${sliceId}-title.svg`" alt="" @error="srcError">
+    <p class="character--designer">character designed by {{ item.designer }}</p>
     <router-link class="character--enter" :to="{name: 'stage', params: {id: item.id}}">ENTER</router-link>
   </li>
 </template>
@@ -63,7 +64,7 @@ export default class CharacterSelectSliderItem extends Vue {
       transform: translate(-50%, -50%);
     }
 
-    &-character {
+    &-image {
       width: 30%;
       right: 20%;
       bottom: -10px;
@@ -75,6 +76,16 @@ export default class CharacterSelectSliderItem extends Vue {
       top: 35%;
       left: 30%;
       transform: translate(-50%, -50%);
+    }
+
+    &-designer {
+      position: absolute;
+      left: 1.5rem;
+      bottom: 1.5rem;
+      padding: .6rem;
+      background-color: rgba(0, 0, 0, .2);
+      font-size: 1.2rem;
+      color: #fff;
     }
 
     &-enter {
@@ -94,8 +105,33 @@ export default class CharacterSelectSliderItem extends Vue {
 
   &.character--slider-item-01 {
     .character- {
-      &-character {
+      &-image {
         width: 20%;
+      }
+    }
+  }
+
+  &.character--slider-item-02 {
+    .character- {
+      &-enter {
+        background-color: #ff4d5e;
+      }
+    }
+  }
+}
+
+.title-to-character {
+  &-enter {
+    .character--background {
+      opacity: 0;
+    }
+
+
+    &-active {
+      transition: 10s;
+
+      .character--background {
+        transition: 300ms 1s;
       }
     }
   }
