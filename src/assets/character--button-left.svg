@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="99.67" height="129.66" viewBox="0 0 99.67 129.66">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #4d4d4d;
+      }
+
+      .cls-2 {
+        fill: #ff4d5e;
+      }
+    </style>
+  </defs>
+  <title>character--button-left</title>
+  <g id="レイヤー_2" data-name="レイヤー 2">
+    <g id="レイヤー_2-2" data-name="レイヤー 2">
+      <path class="cls-1" d="M4.67,65.47l81-46.77a9.34,9.34,0,0,1,14,8.09v93.53a9.33,9.33,0,0,1-14,8.08l-81-46.76A9.33,9.33,0,0,1,4.67,65.47Z"/>
+      <path class="cls-2" d="M4.67,48l81-46.77a9.34,9.34,0,0,1,14,8.09v93.53a9.33,9.33,0,0,1-14,8.08L4.67,64.2A9.33,9.33,0,0,1,4.67,48Z"/>
+    </g>
+  </g>
+</svg>

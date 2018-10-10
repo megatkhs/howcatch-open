@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c:700,800&amp;subset=japanese);
+
 * {
   margin: 0;
   padding: 0;
@@ -12,7 +14,7 @@
 }
 
 html {
-  font-family: 'ヒラギノ角ゴ', '游ゴシック', 'メイリオ', sans-serif;
+  font-family: 'M PLUS Rounded 1c', 'ヒラギノ角ゴ', '游ゴシック', 'メイリオ', sans-serif;
   font-size: 62.5%;
   line-height: 1;
   color: #333;
@@ -27,6 +29,11 @@ body {
   height: 100%;
   font-size: 1.6rem;
   background-color: #559fdb;
+}
+
+button {
+  font-family: 'M PLUS Rounded 1c', 'ヒラギノ角ゴ', '游ゴシック', 'メイリオ', sans-serif;
+  color: #333;
 }
 
 img {

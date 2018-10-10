@@ -1,11 +1,8 @@
 <template>
   <div class="character">
-    <character-select-slider :dataset="characterList"/>
+    <character-select-slider :dataset="characterList" @changePageIndex="setPageIndex"/>
     
-    <page-back-button class="page-back">
-      <font-awesome-icon icon="angle-left"/>
-      もどりますお
-    </page-back-button>
+    <page-back-button class="page-back"/>
   </div>
 </template>
 
@@ -27,11 +24,23 @@ import PageBackButton from '@/components/PageBackButton.vue';
       next('/');
     }
   },
+  beforeRouteLeave(to, from, next) {
+    this.$store.commit('setCharacterCurrentId', this.$data.pageIndex);
+    next();
+  },
 })
 export default class CharacterSelect extends Vue {
+  // datas
+  public pageIndex: number = 0;
+
   // computed
   get characterList(): object {
     return this.$store.state.characters;
+  }
+
+  // methods
+  public setPageIndex(newIndex: number) {
+    this.pageIndex = newIndex;
   }
 }
 </script>
@@ -42,8 +51,9 @@ export default class CharacterSelect extends Vue {
 
   .page-back {
     position: absolute;
-    top: 2rem;
+    top: 0;
     left: 2rem;
+    width: 25%;
   }
 }
 </style>

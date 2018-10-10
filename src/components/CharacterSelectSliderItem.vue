@@ -1,7 +1,7 @@
 <template>
   <li :class="['character--slider-item', `character--slider-item-${sliceId}`]">
     <img class="character--background" :src="`./img/character--${sliceId}-background.png`" alt="" @error="srcError">
-    <img class="character--image" :src="`./img/character--${sliceId}-character.png`" alt="" @error="srcError">
+    <img class="character--image" :src="`./img/character--${sliceId}-image.png`" alt="" @error="srcError">
     <img class="character--title" :src="`./img/character--${sliceId}-title.svg`" alt="" @error="srcError">
     <p class="character--designer">character designed by {{ item.designer }}</p>
     <router-link class="character--enter" :to="{name: 'stage', params: {id: item.id}}">ENTER</router-link>
@@ -15,11 +15,14 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 export default class CharacterSelectSliderItem extends Vue {
   // props
   @Prop() public item!: ({id: number});
+  @Prop() public index!: number;
 
+  // computed
   get sliceId() {
     return ('00' + this.item.id).slice(-2);
   }
 
+  // method
   public srcError(event: Event) {
     const target: any = event.target;
     const src: any = target!.src.split('/character--');
@@ -66,15 +69,15 @@ export default class CharacterSelectSliderItem extends Vue {
 
     &-image {
       width: 30%;
-      right: 20%;
+      right: 23%;
       bottom: -10px;
       transform: translateX(50%);
     }
 
     &-title {
-      width: 45%;
-      top: 35%;
-      left: 30%;
+      width: 50%;
+      top: 44%;
+      left: 35%;
       transform: translate(-50%, -50%);
     }
 
@@ -93,12 +96,14 @@ export default class CharacterSelectSliderItem extends Vue {
       position: absolute;
       left: 30%;
       bottom: 25%;
-      padding: 2rem 8rem;
+      padding: 1rem 8rem;
       background-color: #0af;
       font-size: 3.2rem;
       font-weight: bold;
       color: #ffffff;
       text-decoration: none;
+      border: .4rem solid #fff;
+      border-radius: .4rem;
       transform: translate(-50%, 50%);
     }
   }
@@ -106,7 +111,7 @@ export default class CharacterSelectSliderItem extends Vue {
   &.character--slider-item-01 {
     .character- {
       &-image {
-        width: 20%;
+        width: 32%;
       }
     }
   }
@@ -131,7 +136,6 @@ export default class CharacterSelectSliderItem extends Vue {
       transition: 10s;
 
       .character--background {
-        transition: 300ms 1s;
       }
     }
   }

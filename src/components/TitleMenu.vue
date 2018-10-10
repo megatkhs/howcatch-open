@@ -60,7 +60,7 @@ export default class TitleMenu extends Vue {
       `<p>本当にページを更新しますか？</p><p class="attention">恐らくそれなりの通信料がかかります。<br>WiFi環境下での更新をお薦めします。</p>`,
       '更新する',
       () => {
-        window.location.reload(true);
+        location.reload(true);
       },
     );
     this.closeMenu();
@@ -75,7 +75,7 @@ export default class TitleMenu extends Vue {
         const deleteReq = indexedDB.deleteDatabase(this.dbName);
 
         this.openNoticeModal(`<p>消しちゃいました。</p>`, () => {
-          window.location.reload();
+          location.reload();
         });
       },
     );

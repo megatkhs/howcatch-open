@@ -2,16 +2,16 @@
   <div class="character--slider">
     <div class="character--slider-viewport">
       <ul class="character--slider-container">
-        <character-select-slider-item v-for="(item, index) in dataset" :item="item" :key="index"/>
+        <character-select-slider-item v-for="(item, index) in dataset" :item="item" :index="index" :key="index"/>
       </ul>
     </div>
 
     <div class="character--slider-controller">
       <button :class="['prev', {'disable': pageIndex === 0 ? true : false}]" @click="prevSlide">
-        <font-awesome-icon icon="angle-left"/>
+        <img src="../assets/character--button-left.svg">
       </button>
       <button :class="['next', {'disable': pageIndex === dataset.length - 1 ? true : false}]" @click="nextSlide">
-        <font-awesome-icon icon="angle-right"/>
+        <img src="../assets/character--button-right.svg">
       </button>
     </div>
   </div>
@@ -47,6 +47,8 @@ export default class CharacterSelectSlider extends Vue {
         this.animation.pause();
       }
 
+      this.$emit('changePageIndex', this.pageIndex);
+
       this.animation = anime({
         targets: container,
         left: [container.style.left, -(100 * this.pageIndex) + '%'],
@@ -70,6 +72,8 @@ export default class CharacterSelectSlider extends Vue {
         this.animation.pause();
       }
 
+      this.$emit('changePageIndex', this.pageIndex);
+
       this.animation = anime({
         targets: container,
         left: [container.style.left, -(100 * this.pageIndex) + '%'],
@@ -88,6 +92,8 @@ export default class CharacterSelectSlider extends Vue {
 
   // mounted
   public mounted() {
+    this.pageIndex = this.$store.state.characterCurrentId;
+
     // Elements
     const viewport = this.$el.getElementsByClassName('character--slider-viewport')[0] as HTMLElement;
     const container = this.$el.getElementsByClassName('character--slider-container')[0] as HTMLElement;
@@ -104,6 +110,8 @@ export default class CharacterSelectSlider extends Vue {
     const setValue = () => {
       container.style.left = value + '%';
     };
+
+    setValue();
 
     setEventListener(container, 'mousedown touchstart', (event: any) => {
       if (!dragging) {
@@ -128,6 +136,8 @@ export default class CharacterSelectSlider extends Vue {
         } else {
           this.pageIndex = pageIndex;
         }
+
+        this.$emit('changePageIndex', this.pageIndex);
 
         this.animation = anime({
           targets: container,
@@ -213,13 +223,17 @@ export default class CharacterSelectSlider extends Vue {
 
     button {
       position: absolute;
-      padding: 2rem;
+      padding: 1rem;
       background-color: transparent;
-      font-size: 4.2rem;
+      width: 10%;
       line-height: 1;
       border: none;
       transform: translateY(-50%);
       cursor: pointer;
+
+      img {
+        width: 100%;
+      }
 
       &.prev {
         left: 0;

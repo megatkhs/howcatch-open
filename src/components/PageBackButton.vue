@@ -1,6 +1,6 @@
 <template>
   <div @click="backPage">
-    <slot/>
+    <img src="../assets/common--button-back.png">
   </div>
 </template>
 
@@ -19,5 +19,10 @@ export default class PageBackButton extends Vue {
 <style lang="scss" scoped>
   div {
     cursor: pointer;
+
+    img {
+      margin-top: -5%;
+      width: 100%;
+    }
   }
 </style>

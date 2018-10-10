@@ -27,5 +27,15 @@ export default new Router({
       name: 'stage',
       component: () => import(/* webpackChunkName: "stage" */ './views/StageSelect.vue'),
     },
+    {
+      path: '/stage/:id',
+      name: 'game',
+      component: () => import(/* webpackChunkName: "stage" */ './views/GameScreen.vue'),
+    },
+    {
+      path: '/clear/:id',
+      name: 'clear',
+      component: () => import(/* webpackChunkName: "stage" */ './views/ClearScreen.vue'),
+    },
   ],
 });
