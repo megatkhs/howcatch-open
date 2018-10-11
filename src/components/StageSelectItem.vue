@@ -35,7 +35,7 @@ export default class StageSelectItem extends Vue {
   public gameScreenEnter() {
     if (this.isPlayable) {
       const id: string = String(this.stage.stageId);
-      this.$router.push({ name: 'game', params:{ id } });
+      this.$router.push({ name: 'game', params: { id } });
     }
   }
 }

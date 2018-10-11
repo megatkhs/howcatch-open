@@ -3,28 +3,29 @@
     <img class="window-texture" src="../assets/title--window-texture.svg" alt="">
     <div class="touch-area">
       <img class="logo" src="../assets/logo.svg" alt="ハウキャッチ">
-      <img class="attention-text" src="../assets/title--attention-text.svg" alt="tap to start">
+      <p class="attention-text">まもなく公開</p>
+      <!-- <img class="attention-text" src="../assets/title--attention-text.svg" alt="tap to start"> -->
     </div>
-    <button class="menu-open" @click="openMenu">
+    <!-- <button class="menu-open" @click="openMenu">
       <font-awesome-icon icon="bars"/>
-    </button>
-    <title-menu :flag="menuFlag" @closeMenu="closeMenu" @openAlart="openAlart" @closeAlart="closeAlart" @openNotice="openNotice"/>
+    </button> -->
+    <!-- <title-menu :flag="menuFlag" @closeMenu="closeMenu" @openAlart="openAlart" @closeAlart="closeAlart" @openNotice="openNotice"/>
     <alart-modal :flag="alartFlag" :message="alartMessage" :label="alartLabel" :callback="alartCallback" @closeAlart="closeAlart"/>
-    <notice-modal :flag="noticeFlag" :message="noticeMessage" :callback="noticeCallback" @closeNotice="closeNotice"/>
+    <notice-modal :flag="noticeFlag" :message="noticeMessage" :callback="noticeCallback" @closeNotice="closeNotice"/> -->
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import TitleMenu from '@/components/TitleMenu.vue';
-import AlartModal from '@/components/AlartModal.vue';
-import NoticeModal from '@/components/NoticeModal.vue';
+// import TitleMenu from '@/components/TitleMenu.vue';
+// import AlartModal from '@/components/AlartModal.vue';
+// import NoticeModal from '@/components/NoticeModal.vue';
 
 @Component({
   components: {
-    TitleMenu,
-    AlartModal,
-    NoticeModal,
+    // TitleMenu,
+    // AlartModal,
+    // NoticeModal,
   },
 })
 export default class Title extends Vue {
@@ -114,8 +115,9 @@ export default class Title extends Vue {
     top: 75%;
     left: 50%;
     text-align: center;
+    font-size: 2.4rem;
     transform: translate(-50%, -50%);
-    animation: flashing 1s ease-out 0s infinite alternate none running;
+    // animation: flashing 1s ease-out 0s infinite alternate none running;
   }
 
   .menu-open {
@@ -163,6 +165,11 @@ export default class Title extends Vue {
       transform: translateY(-50%);
     }
 
+    .attention-text {
+      opacity: 0;
+      transform: translate(-50%, -150%) scale(1.3);
+    }
+
     &-active {
       transition: 2.6s, opacity 1.5s, transform 1.5s;
 
@@ -175,8 +182,7 @@ export default class Title extends Vue {
       }
 
       .attention-text {
-        animation: none;
-        opacity: 0;
+        transition: opacity 600ms ease 2s, transform 600ms ease 2s;
       }
     }
   }
@@ -195,7 +201,7 @@ export default class Title extends Vue {
     }
 
     &-active {
-      transition: 1s, opacity 600ms, transform 800ms;
+      transition: 800ms, opacity 600ms, transform 800ms;
       
       .menu-open {
         transition: opacity 200ms ease 100ms, transform 400ms ease;

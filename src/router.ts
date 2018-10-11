@@ -17,25 +17,25 @@ export default new Router({
       name: 'title',
       component: Title,
     },
-    {
-      path: '/character',
-      name: 'character',
-      component: () => import(/* webpackChunkName: "character" */ './views/CharacterSelect.vue'),
-    },
-    {
-      path: '/character/:id',
-      name: 'stage',
-      component: () => import(/* webpackChunkName: "stage" */ './views/StageSelect.vue'),
-    },
-    {
-      path: '/stage/:id',
-      name: 'game',
-      component: () => import(/* webpackChunkName: "stage" */ './views/GameScreen.vue'),
-    },
-    {
-      path: '/clear/:id',
-      name: 'clear',
-      component: () => import(/* webpackChunkName: "stage" */ './views/ClearScreen.vue'),
-    },
+    // {
+    //   path: '/character',
+    //   name: 'character',
+    //   component: () => import(/* webpackChunkName: "character" */ './views/CharacterSelect.vue'),
+    // },
+    // {
+    //   path: '/character/:id',
+    //   name: 'stage',
+    //   component: () => import(/* webpackChunkName: "stage" */ './views/StageSelect.vue'),
+    // },
+    // {
+    //   path: '/stage/:id',
+    //   name: 'game',
+    //   component: () => import(/* webpackChunkName: "game" */ './views/GameScreen.vue'),
+    // },
+    // {
+    //   path: '/clear/:id',
+    //   name: 'clear',
+    //   component: () => import(/* webpackChunkName: "clear" */ './views/ClearScreen.vue'),
+    // },
   ],
 });

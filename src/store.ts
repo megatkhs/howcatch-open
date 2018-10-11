@@ -28,40 +28,40 @@ export default new Vuex.Store({
       // Indexed database
       const dbName = state.dbName;
       const openReq = indexedDB.open(dbName);
-      let db, objStore: any;
-      
+      let db;
+      let objStore: any;
+
       openReq.onupgradeneeded = (event: any) => {
         db = event.target.result;
         objStore = db.createObjectStore('SaveData', {keyPath: 'stageId'});
-      }
-      
+      };
+
       openReq.onsuccess = (event: any) => {
         db = event.target.result;
-        var tx = db.transaction('SaveData', 'readwrite')
-        objStore = tx.objectStore('SaveData')
+        const tx = db.transaction('SaveData', 'readwrite');
+        objStore = tx.objectStore('SaveData');
         const results: any = [];
 
         // 不足データの追加、データの取得
         state.characters.forEach((v: {stages: any, callback: any}) => {
-          v.stages.forEach((v: {stage: any}) => {
-            let stage = objStore.get(v);
-            stage.onsuccess = (event: any) => {
+          v.stages.forEach((val: {stage: any}) => {
+            let stage = objStore.get(val);
+            stage.onsuccess = () => {
               if (!stage.result) {
-                objStore.put({stageId: v, status: 0});
-                
-                stage = objStore.get(v);
-                stage.onsuccess = (event: any) => {
+                objStore.put({stageId: val, status: 0});
+
+                stage = objStore.get(val);
+                stage.onsuccess = () => {
                   results.push(stage.result);
-                }
+                };
               } else {
                 results.push(stage.result);
               }
-            }
+            };
           });
         });
-
         state.savedata = results;
-      }
+      };
     },
     setCharacterCurrentId(state: any, num: number) {
       state.characterCurrentId = num;

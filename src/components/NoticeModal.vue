@@ -5,7 +5,7 @@
       <div class="notice--modal-window">
         <div class="message" v-html="message"/>
         <div class="notice--modal-buttons">
-          <button @click="runCallback">閉じる</button>
+          <button @click="runCallback">{{ value ? value : '閉じる' }}</button>
         </div>
       </div>
     </div>
@@ -19,8 +19,9 @@ import { Component, Emit, Prop, Vue } from 'vue-property-decorator';
 export default class NoticeModal extends Vue {
   // props
   @Prop() public flag!: boolean;
-  @Prop() public message!: string;
+  @Prop() public message!: string ;
   @Prop() public callback!: any;
+  @Prop() public value!: string;
 
   // emit
   @Emit('closeNotice')

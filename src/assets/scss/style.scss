@@ -29,6 +29,13 @@ body {
   height: 100%;
   font-size: 1.6rem;
   background-color: #559fdb;
+  -webkit-touch-callout:none;
+  -webkit-user-select:none; 
+  user-select:none;
+  -moz-user-select:none;
+  -khtml-user-select:none;
+  -webkit-user-drag:none;
+  -khtml-user-drag:none;
 }
 
 button {
@@ -37,12 +44,19 @@ button {
 }
 
 img {
-  vertical-align: middle;
+  vertical-align: middle;pointer-events: none;
 }
 
 #app {
   height: 100%;
+  width: 100%;
   background-color: #fefefe;
   box-shadow: 0 0 10px 5px #2777b880;
   overflow: hidden;
+}
+
+canvas {
+  position: relative;
+  z-index: 0;
+  width: 100%;
 }

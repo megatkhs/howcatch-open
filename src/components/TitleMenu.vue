@@ -9,11 +9,11 @@
             label="ページを更新する"
             :callback="reloadPage"
           />
-          <title-menu-item
+          <!-- <title-menu-item
             className="title--menu-list-item"
             label="お問い合わせする"
             :callback="closeMenu"
-          />
+          /> -->
           <title-menu-item
             className="title--menu-list-item"
             label="データを削除する"

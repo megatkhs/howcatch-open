@@ -22,6 +22,10 @@ import { Component, Vue } from 'vue-property-decorator';
 import PageBackButton from '@/components/PageBackButton.vue';
 import StageSelectItem from '@/components/StageSelectItem.vue';
 
+Component.registerHooks([
+  'beforeRouteEnter',
+]);
+
 @Component({
   components: {
     PageBackButton,
@@ -41,7 +45,7 @@ export default class StageSelect extends Vue {
   get characterStages(): any {
     const characters = this.$store.state.characters;
     for (const item of characters) {
-      if (item.id == this.characterId) {
+      if (item.id === Number(this.characterId)) {
         return item.stages;
       }
     }
@@ -52,7 +56,7 @@ export default class StageSelect extends Vue {
     const stages: any = [];
     this.characterStages.forEach((v: number) => {
       this.savedata.forEach((e: any) => {
-        if (e.stageId == v) {
+        if (e.stageId === v) {
           stages.push(e);
         }
       });
@@ -74,6 +78,15 @@ export default class StageSelect extends Vue {
     return (index: number) => {
       return index <= this.endedStage ? true : false;
     };
+  }
+
+  // router
+  public beforeRouteEnter(to: any, from: any, next: any) {
+    if (from.name === 'character' || from.name === 'game') {
+      next();
+    } else {
+      next('/');
+    }
   }
 }
 </script>
@@ -240,6 +253,52 @@ export default class StageSelect extends Vue {
           height: 70%;
         }
       }
+    }
+  }
+}
+
+.character-to-stage {
+  &-enter {
+    opacity: 0;
+    transform: scale(.9);
+
+    &-active {
+      transition: 800ms;
+    }
+  }
+}
+
+.stage-to-character {
+  &-leave {
+    &-to {
+      opacity: 0;
+      transform: scale(.9);
+    }
+
+    &-active {
+      transition: 500ms;
+    }
+  }
+}
+
+.game-to-stage {
+  &-enter {
+    opacity: 0;
+
+    &-active {
+      transition: 500ms;
+    }
+  }
+}
+
+.stage-to-game {
+  &-leave {
+    &-to {
+      opacity: 0;
+    }
+
+    &-active {
+      transition: 100ms;
     }
   }
 }

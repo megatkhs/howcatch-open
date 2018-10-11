@@ -124,20 +124,4 @@ export default class CharacterSelectSliderItem extends Vue {
     }
   }
 }
-
-.title-to-character {
-  &-enter {
-    .character--background {
-      opacity: 0;
-    }
-
-
-    &-active {
-      transition: 10s;
-
-      .character--background {
-      }
-    }
-  }
-}
 </style>

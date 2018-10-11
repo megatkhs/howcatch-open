@@ -1,8 +1,14 @@
 <template>
   <div v-show="flag" class="game--pause">
-    <img class="game--button-retry" src="../assets/game--button-retry.png" alt="" @click="retryGame">
-    <img class="game--button-play" src="../assets/game--button-play.png" alt="" @click="closePause">
-    <img class="game--button-exit" src="../assets/game--button-exit.png" alt="" @click="pageBack">
+    <button ref="retryBtn" class="game--button-retry" @click="retryGame">
+      <img src="../assets/game--button-retry.png">
+    </button>
+    <button ref="playBtn" class="game--button-play" @click="closePause">
+      <img src="../assets/game--button-play.png">
+    </button>
+    <button ref="exitBtn" class="game--button-exit" @click="pageBack">
+      <img src="../assets/game--button-exit.png">
+    </button>
   </div>
 </template>
 
@@ -12,18 +18,22 @@ import { Component, Prop, Emit, Vue } from 'vue-property-decorator';
 @Component
 export default class GameScreenPause extends Vue {
   // props
-  @Prop() flag!: boolean;
+  @Prop() public flag!: boolean;
+  @Prop() public Stage!: any;
 
   // emit
   @Emit('close')
-  public closePause():void {}
+  public closePause(): void {}
 
   // methods
   public retryGame(): void {
+    this.Stage.Game.end();
+    this.Stage.gameStart();
     this.closePause();
   }
 
   public pageBack(): void {
+    this.Stage.Game.end();
     this.$router.go(-1);
   }
 }
@@ -38,11 +48,17 @@ export default class GameScreenPause extends Vue {
     left: 0;
     background-color: rgba(0, 0, 0, .5);
 
-    > img {
+    > button {
       height: 25%;
+      background: none;
+      border: none;
       position: absolute;
       cursor: pointer;
       transform: translate(-50%, -50%);
+
+      img {
+        height: 100%;
+      }
     }
 
     .game--button {
