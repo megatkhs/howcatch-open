@@ -1,5 +1,3 @@
-const workboxPlugin = require('workbox-webpack-plugin');
-
 module.exports = {
   pages: {
     index: {

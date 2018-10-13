@@ -4,28 +4,28 @@
     <div class="touch-area">
       <img class="logo" src="../assets/logo.svg" alt="ハウキャッチ">
       <p class="attention-text">まもなく公開</p>
-      <!-- <img class="attention-text" src="../assets/title--attention-text.svg" alt="tap to start"> -->
+      <img class="attention-text" src="../assets/title--attention-text.svg" alt="tap to start">
     </div>
-    <!-- <button class="menu-open" @click="openMenu">
+    <button class="menu-open" @click="openMenu">
       <font-awesome-icon icon="bars"/>
-    </button> -->
-    <!-- <title-menu :flag="menuFlag" @closeMenu="closeMenu" @openAlart="openAlart" @closeAlart="closeAlart" @openNotice="openNotice"/>
+    </button>
+    <title-menu :flag="menuFlag" @closeMenu="closeMenu" @openAlart="openAlart" @closeAlart="closeAlart" @openNotice="openNotice"/>
     <alart-modal :flag="alartFlag" :message="alartMessage" :label="alartLabel" :callback="alartCallback" @closeAlart="closeAlart"/>
-    <notice-modal :flag="noticeFlag" :message="noticeMessage" :callback="noticeCallback" @closeNotice="closeNotice"/> -->
+    <notice-modal :flag="noticeFlag" :message="noticeMessage" :callback="noticeCallback" @closeNotice="closeNotice"/>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-// import TitleMenu from '@/components/TitleMenu.vue';
-// import AlartModal from '@/components/AlartModal.vue';
-// import NoticeModal from '@/components/NoticeModal.vue';
+import TitleMenu from '@/components/TitleMenu.vue';
+import AlartModal from '@/components/AlartModal.vue';
+import NoticeModal from '@/components/NoticeModal.vue';
 
 @Component({
   components: {
-    // TitleMenu,
-    // AlartModal,
-    // NoticeModal,
+    TitleMenu,
+    AlartModal,
+    NoticeModal,
   },
 })
 export default class Title extends Vue {

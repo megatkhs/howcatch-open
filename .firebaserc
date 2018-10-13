@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "how-catch"
+    "default": "how-catch",
+    "development": "howcatch-dev"
   }
 }
