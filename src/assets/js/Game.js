@@ -23,14 +23,14 @@ export default class Game {
     this.armAnimeCount = 0;
   }
 
-  createRender(background) {
+  createRender() {
     this.render = Render.create({
       element: this.target,
       engine: this.engine,
       options: {
         width: 1920,
         height: 1080,
-        wireframes: false,
+        // wireframes: false,
         background: 'transparent',
         wireframeBackground: 'transparent',
       },

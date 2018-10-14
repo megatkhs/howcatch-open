@@ -62,6 +62,19 @@ export default class Stage {
 
       this.Game.createCrane();
 
+      const bucho = Bodies.rectangle(855, 736, 531, 270, {
+        label: '部長',
+        isStatic: true,
+        render: {
+          sprite: {
+            texture: '../img/game--01-bucho.png',
+            yOffset: 0.25,
+          },
+        },
+      });
+
+      World.add(this.Game.engine.world, [bucho]);
+
       this.Game.start();
     },
     // stage 03
