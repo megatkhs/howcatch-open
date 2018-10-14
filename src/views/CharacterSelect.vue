@@ -2,7 +2,7 @@
   <div class="character">
     <character-select-slider :dataset="characterList" @changePageIndex="setPageIndex"/>
     
-    <page-back-button class="page-back"/>
+    <page-back-button class="page-back" path="/"/>
   </div>
 </template>
 

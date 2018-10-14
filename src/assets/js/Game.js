@@ -3,12 +3,19 @@ import $ from 'jquery';
 import anime from 'animejs';
 
 export default class Game {
-  constructor(Vue) {
+  constructor(Vue, savedata) {
     this.Vue = Vue;
+    this.savedata = savedata;
     this.$refs = Vue.$refs;
     this.target = Vue.$refs.canvasArea;
+    this.init();
+  }
+
+  init() {
     this.engine = Engine.create();
     this.World = World;
+    this.runner = Runner.create();
+    this.render = Runner.create();
     this.Bodies = Bodies;
     this.status = 'initializing';
     this.holdingStatus = false;
@@ -86,8 +93,8 @@ export default class Game {
       },
     });
 
-    const armL_1 = Bodies.rectangle(59, 238, 20, 116, {render: {fillStyle: 'transparent'}});
-    const armL_2 = Bodies.rectangle(107, 190, 116, 20, {render: {fillStyle: 'transparent'}});
+    const armL_1 = Bodies.rectangle(69, 238, 20, 116, {render: {fillStyle: 'transparent'}});
+    const armL_2 = Bodies.rectangle(117, 190, 116, 20, {render: {fillStyle: 'transparent'}});
     this.armL = Body.create({
       parts: [armL_1, armL_2],
       label: '左腕',
@@ -100,8 +107,8 @@ export default class Game {
       },
     });
 
-    const armR_1 = Bodies.rectangle(341, 238, 20, 116, {render: {fillStyle: 'transparent'}});
-    const armR_2 = Bodies.rectangle(293, 190, 116, 20, {render: {fillStyle: 'transparent'}});
+    const armR_1 = Bodies.rectangle(331, 238, 20, 116, {render: {fillStyle: 'transparent'}});
+    const armR_2 = Bodies.rectangle(283, 190, 116, 20, {render: {fillStyle: 'transparent'}});
     this.armR = Body.create({
       parts: [armR_1, armR_2],
       label: '左腕',
@@ -136,7 +143,7 @@ export default class Game {
         this.status = 'moveL';
         $leftBtn.style.opacity = .4;
         Events.on(this.engine, 'beforeUpdate', () => {
-          Body.setPosition(this.crane, { x: this.crane.position.x - 10, y: this.crane.position.y - 0});
+          Body.setPosition(this.crane, { x: this.crane.position.x - 5, y: this.crane.position.y - 0});
         });
       }
     });
@@ -154,7 +161,7 @@ export default class Game {
         this.status = 'moveR';
         $rightBtn.style.opacity = .4;
         Events.on(this.engine, 'beforeUpdate', () => {
-          Body.setPosition(this.crane, { x: this.crane.position.x + 10, y: this.crane.position.y - 0});
+          Body.setPosition(this.crane, { x: this.crane.position.x + 5, y: this.crane.position.y - 0});
         });
       }
     });
@@ -202,16 +209,29 @@ export default class Game {
     });
   }
 
+  deleteEventlistener() {
+    const $leftBtn = this.$refs.leftBtn;
+    const $rightBtn = this.$refs.rightBtn;
+    const $downBtn = this.$refs.downBtn;
+
+    $($leftBtn).off('mousedown touchstart');
+    $($leftBtn).off('mouseup mouseout touchend touchcancel');
+    $($rightBtn).off('mousedown touchstart');
+    $($leftBtn).off('mouseup mouseout touchend touchcancel');
+    $($downBtn).off('mousedown touchstart');
+    $($leftBtn).off('mouseup mouseout touchend touchcancel');
+  }
+
   craneHolding() {
     if (this.status === 'moveD') {
       this.status = 'moveH';
       this.anime.pause();
       Events.on(this.engine, 'beforeUpdate', () => {
-        if (this.armAnimeCount < 11) {
-          Body.rotate(this.armL, -.1);
-          Body.setPosition(this.armL, { x: this.armL.position.x + 3, y: this.armL.position.y + 6});
-          Body.rotate(this.armR, .1);
-          Body.setPosition(this.armR, { x: this.armR.position.x - 3, y: this.armR.position.y + 6});
+        if (this.armAnimeCount < 21) {
+          Body.rotate(this.armL, -.05);
+          Body.setPosition(this.armL, { x: this.armL.position.x + 1.5, y: this.armL.position.y + 3});
+          Body.rotate(this.armR, .05);
+          Body.setPosition(this.armR, { x: this.armR.position.x - 1.5, y: this.armR.position.y + 3});
           this.armAnimeCount++;
         } else {
           this.holdingStatus = true;
@@ -243,13 +263,14 @@ export default class Game {
   }
 
   craneRelease() {
-    if (this.holdingStatus) {
+    if (this.holdingStatus && this.status === 'wait') {
+      this.status = 'moveRe';
       Events.on(this.engine, 'beforeUpdate', () => {
         if (this.armAnimeCount > 0) {
-          Body.rotate(this.armL, .1);
-          Body.setPosition(this.armL, { x: this.armL.position.x - 3, y: this.armL.position.y - 6});
-          Body.rotate(this.armR, -.1);
-          Body.setPosition(this.armR, { x: this.armR.position.x + 3, y: this.armR.position.y - 6});
+          Body.rotate(this.armL, .05);
+          Body.setPosition(this.armL, { x: this.armL.position.x - 1.5, y: this.armL.position.y - 3});
+          Body.rotate(this.armR, -.05);
+          Body.setPosition(this.armR, { x: this.armR.position.x + 1.5, y: this.armR.position.y - 3});
           this.armAnimeCount--;
         } else {
           Events.off(this.engine , 'beforeUpdate');
@@ -287,47 +308,35 @@ export default class Game {
   }
 
   start() {
-    this.setEventListener();
     Engine.run(this.engine);
     Render.run(this.render);
-
+    Runner.run(this.runner, this.engine);
+    this.setEventListener();
+    this.startedTime = new Date();
     this.status = 'wait';
   }
 
   end() {
+    Events.off(this.engine, 'collisionStart');
     Engine.clear(this.engine);
     Render.stop(this.render);
+    Runner.stop(this.runner);
+    this.deleteEventlistener();
+    $('canvas', this.target).remove();
   }
 
   clear() {
     this.end();
-    const dbName = this.Vue.$store.state.dbName;
-    let openReq;
-    let db;
-    let tx;
-    let objStore;
-
-    async function datasave() {
-      return new Promise((resolve) => {
-        openReq = indexedDB.open(dbName);
-
-        openReq.onsuccess = (event) => {
-          resolve(event);
-        };
-      });
+    this.endedTime = new Date();
+    const db = this.Vue.$store.state.db;
+    const clear_time = this.endedTime - this.startedTime;
+    console.log(this.savedata.clear_time, clear_time)
+    if (this.savedata.clear_time > clear_time || this.savedata.clear_time === 0) {
+      db.savedata.update(this.savedata.id, {status: 1, clear_time});
+    } else {
+      db.savedata.update(this.savedata.id, {status: 1});
     }
-
-    datasave()
-      .then((event) => {
-        db = event.target.result;
-        tx = db.transaction('SaveData', 'readwrite');
-        objStore = tx.objectStore('SaveData');
-        objStore.put({stageId: Number(this.Vue.$route.params.id), status: 1});
-        return null;
-      }).then(() => {
-        this.Vue.$store.commit('saveload');
-      }).then(() => {
-        this.Vue.$router.push({name: 'clear', params: {id: this.Vue.$route.params.id}});
-      });
+    this.Vue.$store.commit('saveload');
+    this.Vue.$router.push({name: 'clear', params: {id: this.Vue.$route.params.id}});
   }
 }

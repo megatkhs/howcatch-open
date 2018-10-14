@@ -6,14 +6,11 @@
         :key = "index"
         :stage = "stage"
         :index = "index"
-        :isPlayable = "playableJudge(index)"
-        :class = "{cleared: stage.status, playable: playableJudge(index)}"
+        :isPlayable = "playableJudge(stage.stage_id)"
+        :class = "{cleared: stage.status, playable: playableJudge(stage.stage_id)}"
       />
     </div>
-    <page-back-button class="page-back">
-      <font-awesome-icon icon="angle-left"/>
-      もどりますお
-    </page-back-button>
+    <page-back-button class="page-back" path="/character"/>
   </div>
 </template>
 
@@ -56,7 +53,7 @@ export default class StageSelect extends Vue {
     const stages: any = [];
     this.characterStages.forEach((v: number) => {
       this.savedata.forEach((e: any) => {
-        if (e.stageId === v) {
+        if (e.stage_id === v) {
           stages.push(e);
         }
       });
@@ -76,13 +73,14 @@ export default class StageSelect extends Vue {
 
   get playableJudge(): any {
     return (index: number) => {
-      return index <= this.endedStage ? true : false;
+      // return index <= this.endedStage ? true : false;
+      return index == 1;
     };
   }
 
   // router
   public beforeRouteEnter(to: any, from: any, next: any) {
-    if (from.name === 'character' || from.name === 'game') {
+    if (from.name === 'character' || from.name === 'game' || from.name === 'clear') {
       next();
     } else {
       next('/');

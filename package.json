@@ -1,19 +1,18 @@
 {
   "name": "howcatch-v1.0",
-  "version": "0.1.0",
+  "version": "0.9.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint --fix",
-    "test:unit": "vue-cli-service test:unit"
+    "build": "vue-cli-service build"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.4",
     "@fortawesome/free-solid-svg-icons": "^5.3.1",
     "@fortawesome/vue-fontawesome": "^0.1.1",
     "animejs": "^2.2.0",
-    "firebase": "^5.5.3",
+    "dexie": "^2.0.4",
+    "firebase": "^5.5.4",
     "jquery": "^3.3.1",
     "matter-js": "^0.14.2",
     "register-service-worker": "^1.0.0",
@@ -25,16 +24,16 @@
     "vuex-router-sync": "^5.0.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.0.4",
-    "@vue/cli-plugin-pwa": "^3.0.4",
-    "@vue/cli-plugin-typescript": "^3.0.4",
-    "@vue/cli-service": "^3.0.4",
-    "@vue/test-utils": "^1.0.0-beta.20",
-    "babel-core": "7.0.0-bridge.0",
+    "@vue/cli-plugin-babel": "^3.0.5",
+    "@vue/cli-plugin-pwa": "^3.0.5",
+    "@vue/cli-plugin-typescript": "^3.0.5",
+    "@vue/cli-service": "^3.0.5",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.0.1",
-    "ts-jest": "^23.0.0",
     "typescript": "^3.0.0",
     "vue-template-compiler": "^2.5.17"
-  }
+  },
+  "main": "index.js",
+  "author": "megatkhs <tarodino0526@gmail.com>",
+  "license": "MIT"
 }

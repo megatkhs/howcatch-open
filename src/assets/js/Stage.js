@@ -33,6 +33,10 @@ export default class Stage {
         },
       });
 
+      World.add(this.Game.engine.world, [bucho, desk]);
+
+      this.Game.createCrane('01');
+
       const cupBase = Bodies.rectangle(1851, 600, 42, 57, {
         label: 'カップ',
         // isStatic: true,
@@ -44,19 +48,17 @@ export default class Stage {
         },
       });
 
-      World.add(this.Game.engine.world, [bucho, desk, cupBase]);
-
-      this.Game.createCrane('01');
+      World.add(this.Game.engine.world, cupBase);
 
       this.Game.goalSenceActive(bucho ,cupBase);
 
       this.Game.start();
     },
   ];
-  constructor(Vue, stageId) {
+  constructor(Vue, savedata) {
     this.$refs = Vue.$refs;
-    this.Game = new Game.default(Vue);
-    this.stageId = stageId;
+    this.Game = new Game.default(Vue, savedata);
+    this.stageId = savedata.stage_id;
 
     this.gameStart();
   }

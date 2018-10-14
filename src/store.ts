@@ -1,11 +1,13 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import Dexie from "dexie";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
     dbName: 'howcatch',
+    version: '0.9.3',
     characters: [
       {
         id: 1,
@@ -26,42 +28,28 @@ export default new Vuex.Store({
   mutations: {
     saveload(state: any) {
       // Indexed database
-      const dbName = state.dbName;
-      const openReq = indexedDB.open(dbName);
-      let db;
-      let objStore: any;
+      state.db = new Dexie(state.dbName);
 
-      openReq.onupgradeneeded = (event: any) => {
-        db = event.target.result;
-        objStore = db.createObjectStore('SaveData', {keyPath: 'stageId'});
-      };
+      state.db.version(1).stores({
+        savedata: "++id, &stage_id, character_id, status, clear_time"
+      })
 
-      openReq.onsuccess = (event: any) => {
-        db = event.target.result;
-        const tx = db.transaction('SaveData', 'readwrite');
-        objStore = tx.objectStore('SaveData');
-        const results: any = [];
-
-        // 不足データの追加、データの取得
-        state.characters.forEach((v: {stages: any, callback: any}) => {
-          v.stages.forEach((val: {stage: any}) => {
-            let stage = objStore.get(val);
-            stage.onsuccess = () => {
-              if (!stage.result) {
-                objStore.put({stageId: val, status: 0});
-
-                stage = objStore.get(val);
-                stage.onsuccess = () => {
-                  results.push(stage.result);
-                };
-              } else {
-                results.push(stage.result);
-              }
-            };
+      state.characters.forEach((v: any, i: number) => {
+        v.stages.forEach((val: any) => {
+          state.db.savedata.put({
+            stage_id: val,
+            character_id: i,
+            status: 0,
+            clear_time: 0
           });
         });
-        state.savedata = results;
-      };
+      });
+
+      state.db.savedata.toArray()
+        .then((datas: any) => {
+          state.savedata = datas;
+        });
+
     },
     setCharacterCurrentId(state: any, num: number) {
       state.characterCurrentId = num;

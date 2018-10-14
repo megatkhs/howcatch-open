@@ -2,7 +2,6 @@
   <div :class="['game', `game--${slice($route.params.id)}`]">
     <div ref="canvasArea" id="game--canvas-area">
       <img ref="canvasBackground" class="game--canvas-area-background" src="" alt="">
-      <!-- <span @click="clearedGame">クリアしちゃった</span> -->
     </div>
     <div class="game--controller-area">
       <button ref="leftBtn" class="game--button-left">
@@ -18,7 +17,7 @@
         <img src="../assets/game--button-down.png" alt="">
       </button>
     </div>
-    <game-screen-pause :flag="pauseFlag" :Stage="Stage" @close="closePause"/>
+    <game-screen-pause :flag="pauseFlag" :Stage="Stage" @close="closePause" @onretry="setGame"/>
   </div>
 </template>
 
@@ -49,6 +48,17 @@ export default class GameScreen extends Vue {
 
   public closePause(): void {
     this.pauseFlag = false;
+  }
+
+  public async setGame() {
+    let savedata;
+    await this.$store.state.savedata.forEach((v: any) => {
+      if (v.stage_id === Number(this.$route.params.id)) {
+        savedata = v;
+      }
+    });
+
+    this.Stage = new Stage.default(this, savedata);
   }
 
   public clearedGame(): void {
@@ -100,7 +110,7 @@ export default class GameScreen extends Vue {
 
   // mounted
   public mounted() {
-    this.Stage = new Stage.default(this, this.$route.params.id);
+    this.setGame();
   }
 }
 </script>

@@ -5,13 +5,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
 export default class PageBackButton extends Vue {
+  // props
+  @Prop() public path!: string;
+
   // methods
   public backPage() {
-    this.$router.go(-1);
+    this.$router.push(this.path);
   }
 }
 </script>

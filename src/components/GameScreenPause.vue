@@ -25,13 +25,13 @@ export default class GameScreenPause extends Vue {
   @Emit('close')
   public closePause(): void {}
 
-  // methods
+  @Emit('onretry')
   public retryGame(): void {
     this.Stage.Game.end();
-    this.Stage.gameStart();
     this.closePause();
   }
 
+  // methods
   public pageBack(): void {
     this.Stage.Game.end();
     this.$router.go(-1);

@@ -1,11 +1,10 @@
 <template>
   <div class="title">
     <img class="window-texture" src="../assets/title--window-texture.svg" alt="">
-    <div class="touch-area">
-      <img class="logo" src="../assets/logo.svg" alt="ハウキャッチ">
-      <p class="attention-text">まもなく公開</p>
-      <img class="attention-text" src="../assets/title--attention-text.svg" alt="tap to start">
-    </div>
+    <div class="touch-area"/>
+    <img class="logo" src="../assets/logo.svg" alt="ハウキャッチ">
+    <img class="attention-text" src="../assets/title--attention-text.svg" alt="tap to start">
+    <p class="game-version">ver.{{game_version}}</p>
     <button class="menu-open" @click="openMenu">
       <font-awesome-icon icon="bars"/>
     </button>
@@ -38,6 +37,11 @@ export default class Title extends Vue {
   public noticeFlag: boolean = false;
   public noticeMessage: string = '';
   public noticeCallback: any = this.closeNotice;
+
+  // computed
+  get game_version() {
+    return this.$store.state.version;
+  }
 
   // methods
   public gameStart() {
@@ -117,7 +121,14 @@ export default class Title extends Vue {
     text-align: center;
     font-size: 2.4rem;
     transform: translate(-50%, -50%);
-    // animation: flashing 1s ease-out 0s infinite alternate none running;
+    animation: flashing 1s ease-out 0s infinite alternate none running;
+  }
+
+  .game-version {
+    position: absolute;
+    right: 2rem;
+    bottom: 2rem;
+    color: #fff;
   }
 
   .menu-open {
@@ -167,7 +178,11 @@ export default class Title extends Vue {
 
     .attention-text {
       opacity: 0;
-      transform: translate(-50%, -150%) scale(1.3);
+      transform: translate(-50%, -50%) scale(1.3);
+    }
+
+    .game-version {
+      opacity: 0;
     }
 
     &-active {
@@ -183,6 +198,11 @@ export default class Title extends Vue {
 
       .attention-text {
         transition: opacity 600ms ease 2s, transform 600ms ease 2s;
+        animation: none;
+      }
+
+      .game-version {
+        transition: opacity 600ms ease 2s;
       }
     }
   }
@@ -216,8 +236,8 @@ export default class Title extends Vue {
 
 // keyframe animation
 @keyframes flashing {
-  0% {opacity: 0;}
-  100% {opacity: 1;}
+  0% {opacity: 1;}
+  100% {opacity: 0;}
 }
 </style>
 

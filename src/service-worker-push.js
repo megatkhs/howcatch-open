@@ -1,18 +1,11 @@
-importScripts('service-worker.js');
+import firebase from 'firebase';
 
-self.addEventListener('push', function(event) {
-  event.waitUntil(
-    self.registration.pushManager.getSubscription()
-      .then(function(subscription) {
-        if (subscription) {
-          return subscription.endpoint
-        }
-        throw new ErrorEvent('User not subscribed')
-      })
-      .then(function(res) {
-        return self.registration.showNotification('title', {
-          body: 'contents'
-        })
-      })
-  )
-})
+const config = {
+  apiKey: "AIzaSyCFHl3YaABALoIEovx69kqjjqZ38nKu8sI",
+  authDomain: "howcatch-dev.firebaseapp.com",
+  databaseURL: "https://howcatch-dev.firebaseio.com",
+  storageBucket: "howcatch-dev.appspot.com",
+};
+firebase.initializeApp(config);
+
+console.log(firebase)

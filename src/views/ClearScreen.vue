@@ -1,6 +1,7 @@
 <template>
   <div class="clear">
     <img :src="`../img/clear--${slice(this.$route.params.id)}-image.svg`" alt="">
+    <router-link class="character--enter" :to="{name: 'stage', params: {id: 1}}">ENTER</router-link>
   </div>
 </template>
 

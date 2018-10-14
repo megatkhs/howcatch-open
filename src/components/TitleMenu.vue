@@ -57,7 +57,7 @@ export default class TitleMenu extends Vue {
   // methods
   public reloadPage(): void {
     this.openAlartModal(
-      `<p>本当にページを更新しますか？</p><p class="attention">恐らくそれなりの通信料がかかります。<br>WiFi環境下での更新をお薦めします。</p>`,
+      `<p>本当にページを更新しますか？</p><p class="attention">挙動がおかしい場合に使用してください。<br>キャッシュの更新はタスクを切って、<br>再度起動してください。</p>`,
       '更新する',
       () => {
         location.reload(true);
@@ -69,7 +69,7 @@ export default class TitleMenu extends Vue {
   // methods
   public deletePlayData(): void {
     this.openAlartModal(
-      `<p>本当にプレイデータを削除しますか？</p><p class="attention">失ったデータは取り戻せません。<br>デバッカーなら消してください。</p>`,
+      `<p>本当にプレイデータを削除しますか？</p><p class="attention">失ったデータは取り戻せません。<br>ステージが表示されないなどの<br>不具合が起こった場合に使用してください。</p>`,
       '削除する',
       () => {
         const deleteReq = indexedDB.deleteDatabase(this.dbName);
