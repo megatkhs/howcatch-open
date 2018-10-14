@@ -9,17 +9,12 @@ export default new Router({
   routes: [
     {
       path: '*',
-      redirect: '/sandbox',
+      redirect: '/',
     },
     {
       path: '/',
       name: 'title',
       component: Title,
-    },
-    {
-      path: '/sandbox',
-      name: 'sandbox',
-      component: () => import(/* webpackChunkName: "character" */ './views/SandboxScreen.vue'),
     },
     {
       path: '/character',

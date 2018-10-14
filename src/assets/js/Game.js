@@ -63,7 +63,8 @@ export default class Game {
     World.add(this.engine.world, [wallL, wallR, floar]);
   }
 
-  createCrane(num) {
+  createCrane(custom_id) {
+    const num = custom_id ? custom_id : ('00' + this.savedata.character_id).slice(-2);
     const pole = Bodies.rectangle(200, -450, 20, 1000, {
       label: 'ポール',
       render: {

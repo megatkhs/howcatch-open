@@ -54,6 +54,76 @@ export default class Stage {
 
       this.Game.start();
     },
+    // stage 02
+    () => {
+      this.$refs.canvasBackground.src = '../img/game--01-background.png';
+      this.Game.createRender();
+      this.Game.createWalls();
+
+      this.Game.createCrane();
+
+      this.Game.start();
+    },
+    // stage 03
+    () => {
+      this.$refs.canvasBackground.src = '../img/game--01-background.png';
+      this.Game.createRender();
+      this.Game.createWalls();
+
+      this.Game.createCrane();
+
+      this.Game.start();
+    },
+    // stage 04
+    () => {
+      this.$refs.canvasBackground.src = '../img/game--01-background.png';
+      this.Game.createRender();
+      this.Game.createWalls();
+
+      this.Game.createCrane();
+
+      this.Game.start();
+    },
+    // stage 05
+    () => {
+      this.$refs.canvasBackground.src = '../img/game--05-background.png';
+      this.Game.createRender();
+      this.Game.createWalls();
+
+      this.Game.createCrane();
+
+      this.Game.start();
+    },
+    // stage 06
+    () => {
+      this.$refs.canvasBackground.src = '../img/game--06-background.png';
+      this.Game.createRender();
+      this.Game.createWalls();
+
+      this.Game.createCrane();
+
+      this.Game.start();
+    },
+    // stage 07
+    () => {
+      this.$refs.canvasBackground.src = '../img/game--07-background.png';
+      this.Game.createRender();
+      this.Game.createWalls();
+
+      this.Game.createCrane();
+
+      this.Game.start();
+    },
+    // stage 08
+    () => {
+      this.$refs.canvasBackground.src = '../img/game--08-background.png';
+      this.Game.createRender();
+      this.Game.createWalls();
+
+      this.Game.createCrane();
+
+      this.Game.start();
+    },
   ];
   constructor(Vue, savedata) {
     this.$refs = Vue.$refs;

@@ -9,11 +9,11 @@ module.exports = {
   pwa: {
     name: 'ハウキャッチ',
     themeColor: '#000000',
-    importWorkboxFrom: 'cdn',
-    workboxPluginMode: 'InjectManifest',
-    workboxOptions: {
-      swSrc: 'src/service-worker.js',
-      swDest: 'service-worker.js'
-    },
+    // importWorkboxFrom: 'cdn',
+    // workboxPluginMode: 'InjectManifest',
+    // workboxOptions: {
+    //   swSrc: 'src/service-worker.js',
+    //   swDest: 'service-worker.js'
+    // },
   },
 }

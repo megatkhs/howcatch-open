@@ -58,48 +58,10 @@ export default class GameScreen extends Vue {
       }
     });
 
+    console.log(savedata)
+
     this.Stage = new Stage.default(this, savedata);
   }
-
-  public clearedGame(): void {
-    const dbName = this.$store.state.dbName;
-    let openReq;
-    let db;
-    let tx;
-    let objStore: any;
-
-    async function datasave() {
-      return new Promise((resolve: any) => {
-        openReq = indexedDB.open(dbName);
-
-        openReq.onsuccess = (event: any) => {
-          resolve(event);
-        };
-      });
-    }
-
-    datasave()
-      .then((event: any) => {
-        db = event.target.result;
-        tx = db.transaction('SaveData', 'readwrite');
-        objStore = tx.objectStore('SaveData');
-        objStore.put({stageId: Number(this.$route.params.id), status: 1});
-        return null;
-      }).then(() => {
-        this.$store.commit('saveload');
-      }).then(() => {
-        this.$router.push({name: 'clear', params: {id: this.$route.params.id}});
-      });
-  }
-
-  // router
-  // public beforeRouteEnter(to: any, from: any, next: any) {
-  //   if (from.name === 'stage' || from.name === 'clear') {
-  //     next();
-  //   } else {
-  //     next('/');
-  //   }
-  // }
 
   // computed
   get slice() {

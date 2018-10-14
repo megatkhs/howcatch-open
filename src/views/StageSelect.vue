@@ -6,8 +6,8 @@
         :key = "index"
         :stage = "stage"
         :index = "index"
-        :isPlayable = "playableJudge(stage.stage_id)"
-        :class = "{cleared: stage.status, playable: playableJudge(stage.stage_id)}"
+        :isPlayable = "playableJudge(index)"
+        :class = "{cleared: stage.status, playable: playableJudge(index)}"
       />
     </div>
     <page-back-button class="page-back" path="/character"/>
@@ -73,8 +73,7 @@ export default class StageSelect extends Vue {
 
   get playableJudge(): any {
     return (index: number) => {
-      // return index <= this.endedStage ? true : false;
-      return index == 1;
+      return index <= this.endedStage ? true : false;
     };
   }
 
@@ -107,7 +106,7 @@ export default class StageSelect extends Vue {
     display: flex;
     justify-content: space-between;
     position: relative;
-    width: 85%;
+    width: 80%;
     height: 50%;
     top: 25%;
     left: 10%;
@@ -121,11 +120,14 @@ export default class StageSelect extends Vue {
 
     &-item {
       position: relative;
-      box-flex: 1;
-      width: 22%;
+      width: 100%;
       background-color: #fff;
       border: none;
       border-radius: .6rem;
+
+      &:nth-last-of-type(n + 2) {
+        margin-right: 3%;
+      }
 
       &.playable {
         cursor: pointer;

@@ -16,6 +16,7 @@ library.add(faBars, faTimes, faAngleLeft, faAngleRight);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 import './assets/scss/style.scss';
+import './service-worker.js';
 
 Vue.config.productionTip = false;
 
@@ -30,8 +31,3 @@ new Vue({
 }).$mount('#app');
 
 store.commit('saveload');
-
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/service-worker.js');
-}
-

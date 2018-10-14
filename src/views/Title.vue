@@ -1,10 +1,11 @@
 <template>
   <div class="title">
     <img class="window-texture" src="../assets/title--window-texture.svg" alt="">
-    <div class="touch-area"/>
+    <div class="touch-area" v-if="!update"/>
     <img class="logo" src="../assets/logo.svg" alt="ハウキャッチ">
-    <img class="attention-text" src="../assets/title--attention-text.svg" alt="tap to start">
+    <img class="attention-text" src="../assets/title--attention-text.svg" alt="tap to start" v-if="!update">
     <p class="game-version">ver.{{game_version}}</p>
+    <p class="update-notice" v-if="update">ハウキャッチの更新があります！<br>タスクを終了してアプリを更新しましょう！</p>
     <button class="menu-open" @click="openMenu">
       <font-awesome-icon icon="bars"/>
     </button>
@@ -41,6 +42,10 @@ export default class Title extends Vue {
   // computed
   get game_version() {
     return this.$store.state.version;
+  }
+
+  get update() {
+    return this.$store.state.updateNotice;
   }
 
   // methods
@@ -129,6 +134,18 @@ export default class Title extends Vue {
     right: 2rem;
     bottom: 2rem;
     color: #fff;
+  }
+  
+  .update-notice {
+    position: absolute;
+    width: 100%;
+    top: 60%;
+    left: 0;
+    color: #fff;
+    line-height: 1.6;
+    padding: 1rem 0;
+    background-color: rgba(0, 0, 0, .6);
+    // animation: flashing 3s linear 0s infinite alternate none running;
   }
 
   .menu-open {

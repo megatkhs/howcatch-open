@@ -7,7 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     dbName: 'howcatch',
-    version: '0.9.3',
+    version: '0.9.6',
     characters: [
       {
         id: 1,
@@ -24,6 +24,7 @@ export default new Vuex.Store({
     ],
     characterCurrentId: 0,
     savedata: [],
+    updateNotice: false,
   },
   mutations: {
     saveload(state: any) {
@@ -38,7 +39,7 @@ export default new Vuex.Store({
         v.stages.forEach((val: any) => {
           state.db.savedata.put({
             stage_id: val,
-            character_id: i,
+            character_id: i + 1,
             status: 0,
             clear_time: 0
           });
