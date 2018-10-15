@@ -30,7 +30,7 @@ export default class Game {
       options: {
         width: 1920,
         height: 1080,
-        // wireframes: false,
+        wireframes: false,
         background: 'transparent',
         wireframeBackground: 'transparent',
       },
@@ -64,12 +64,12 @@ export default class Game {
   }
 
   createCrane(custom_id) {
-    const num = custom_id ? custom_id : ('00' + this.savedata.character_id).slice(-2);
+    const id = custom_id ? custom_id : ('00' + this.savedata.character_id).slice(-2);
     const pole = Bodies.rectangle(200, -450, 20, 1000, {
       label: 'ポール',
       render: {
         sprite: {
-          texture: `../img/crane--${num}-pole.png`,
+          texture: `../img/crane--${id}-pole.png`,
           yScale: 42,
         },
       },
@@ -79,23 +79,23 @@ export default class Game {
       label: 'ジョイント',
       render: {
         sprite: {
-          texture: `../img/crane--${num}-joint.png`,
+          texture: `../img/crane--${id}-joint.png`,
         },
       },
     });
 
-    this.head = Bodies.circle(200, 130, 80, {
+    this.head = Bodies.circle(200, 150, 80, {
       label: 'ヘッド',
       render: {
         sprite: {
-          texture: `../img/crane--${num}-head.png`,
-          yOffset: -0.22,
+          texture: `../img/crane--${id}-head.png`,
+          yOffset: id === '01' ? -0.1 : 0
         },
       },
     });
 
-    const armL_1 = Bodies.rectangle(69, 238, 20, 116, {render: {fillStyle: 'transparent'}});
-    const armL_2 = Bodies.rectangle(117, 190, 116, 20, {render: {fillStyle: 'transparent'}});
+    const armL_1 = Bodies.rectangle(82, 238, 20, 116, {render: {fillStyle: 'transparent'}});
+    const armL_2 = Bodies.rectangle(130, 190, 116, 20, {render: {fillStyle: 'transparent'}});
     this.armL = Body.create({
       parts: [armL_1, armL_2],
       label: '左腕',
@@ -103,13 +103,13 @@ export default class Game {
       isSensor: true,
       render: {
         sprite: {
-          texture: `../img/crane--${num}-arm-l.png`,
+          texture: `../img/crane--${id}-arm-l.png`,
         },
       },
     });
 
-    const armR_1 = Bodies.rectangle(331, 238, 20, 116, {render: {fillStyle: 'transparent'}});
-    const armR_2 = Bodies.rectangle(283, 190, 116, 20, {render: {fillStyle: 'transparent'}});
+    const armR_1 = Bodies.rectangle(318, 238, 20, 116, {render: {fillStyle: 'transparent'}});
+    const armR_2 = Bodies.rectangle(270, 190, 116, 20, {render: {fillStyle: 'transparent'}});
     this.armR = Body.create({
       parts: [armR_1, armR_2],
       label: '左腕',
@@ -117,7 +117,7 @@ export default class Game {
       isSensor: true,
       render: {
         sprite: {
-          texture: `../img/crane--${num}-arm-r.png`,
+          texture: `../img/crane--${id}-arm-r.png`,
         },
       },
     });
@@ -230,9 +230,9 @@ export default class Game {
       Events.on(this.engine, 'beforeUpdate', () => {
         if (this.armAnimeCount < 21) {
           Body.rotate(this.armL, -.05);
-          Body.setPosition(this.armL, { x: this.armL.position.x + 1.5, y: this.armL.position.y + 3});
+          Body.setPosition(this.armL, { x: this.armL.position.x + 1.5, y: this.armL.position.y + 2});
           Body.rotate(this.armR, .05);
-          Body.setPosition(this.armR, { x: this.armR.position.x - 1.5, y: this.armR.position.y + 3});
+          Body.setPosition(this.armR, { x: this.armR.position.x - 1.5, y: this.armR.position.y + 2});
           this.armAnimeCount++;
         } else {
           this.holdingStatus = true;
@@ -269,9 +269,9 @@ export default class Game {
       Events.on(this.engine, 'beforeUpdate', () => {
         if (this.armAnimeCount > 0) {
           Body.rotate(this.armL, .05);
-          Body.setPosition(this.armL, { x: this.armL.position.x - 1.5, y: this.armL.position.y - 3});
+          Body.setPosition(this.armL, { x: this.armL.position.x - 1.5, y: this.armL.position.y - 2});
           Body.rotate(this.armR, -.05);
-          Body.setPosition(this.armR, { x: this.armR.position.x + 1.5, y: this.armR.position.y - 3});
+          Body.setPosition(this.armR, { x: this.armR.position.x + 1.5, y: this.armR.position.y - 2});
           this.armAnimeCount--;
         } else {
           Events.off(this.engine , 'beforeUpdate');
@@ -293,15 +293,14 @@ export default class Game {
           this.clear();
         }
 
-        if (v.bodyA === this.head || v.bodyB === this.head) {
-          this.craneHolding();
-        }
-
-        if (v.bodyA === this.armL || v.bodyB === this.armL) {
-          this.craneHolding();
-        }
-
-        if (v.bodyA === this.armR || v.bodyB === this.armR) {
+        if (
+          v.bodyA === this.head
+          || v.bodyB === this.head
+          || v.bodyA === this.armL
+          || v.bodyB === this.armL
+          || v.bodyA === this.armR
+          || v.bodyB === this.armR
+        ) {
           this.craneHolding();
         }
       });

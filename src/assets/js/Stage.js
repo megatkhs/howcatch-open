@@ -62,7 +62,7 @@ export default class Stage {
 
       this.Game.createCrane();
 
-      const bucho = Bodies.rectangle(855, 736, 531, 270, {
+      const bucho_head = Bodies.rectangle(855, 736, 531, 270, {
         label: '部長',
         isStatic: true,
         render: {
@@ -73,7 +73,7 @@ export default class Stage {
         },
       });
 
-      World.add(this.Game.engine.world, [bucho]);
+      World.add(this.Game.engine.world, [bucho_head]);
 
       this.Game.start();
     },
