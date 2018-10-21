@@ -20,6 +20,8 @@ export default class Game {
     this.status = 'initializing';
     this.holdingStatus = false;
     this.timer = false;
+    this.clearJudge = false;
+    this.clearTimer = false;
     this.armAnimeCount = 0;
   }
 
@@ -286,11 +288,19 @@ export default class Game {
     Events.on(this.engine, 'collisionStart', (event) => {
       const pairs = event.pairs;
 
-      pairs.forEach((v) => {
-        if (v.bodyA === BodyA && v.bodyB === BodyB) {
-          this.clear();
-        } else if (v.bodyA === BodyB && v.bodyB === BodyA) {
-          this.clear();
+      pairs.forEach(v => {
+        if (
+          v.bodyA === BodyA
+          && v.bodyB === BodyB
+          || v.bodyA === BodyB
+          && v.bodyB === BodyA
+        ) {
+          this.clearJudge = true;
+          this.clearTimer = setTimeout(() => {
+            if (this.clearJudge === true) {
+              this.clear();
+            }
+          }, 1000);
         }
 
         if (
@@ -305,6 +315,26 @@ export default class Game {
         }
       });
     });
+
+    
+
+    Events.on(this.engine, 'collisionEnd', (event) => {
+      const pairs = event.pairs;
+
+      pairs.forEach(v => {
+        if (
+          v.bodyA === BodyA
+          && v.bodyB === BodyB
+          || v.bodyA === BodyB
+          && v.bodyB === BodyA
+        ) {
+          this.clearJudge = false;
+          if (this.clearTimer !== false) {
+            clearTimeout(this.clearTimer)
+          }
+        }
+      });
+  });
   }
 
   start() {

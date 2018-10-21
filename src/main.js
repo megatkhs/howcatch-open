@@ -8,10 +8,10 @@ import { sync } from 'vuex-router-sync'
 sync(store, router)
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faBars, faTimes, faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faTimes, faAngleLeft, faAngleRight, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-library.add(faBars, faTimes, faAngleLeft, faAngleRight);
+library.add(faBars, faTimes, faAngleLeft, faAngleRight, faAngleDown);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 

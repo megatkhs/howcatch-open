@@ -57,9 +57,6 @@ export default class GameScreen extends Vue {
         savedata = v;
       }
     });
-
-    console.log(savedata)
-
     this.Stage = new Stage.default(this, savedata);
   }
 

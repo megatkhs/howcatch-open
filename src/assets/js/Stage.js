@@ -37,20 +37,36 @@ export default class Stage {
 
       this.Game.createCrane('01');
 
-      const cupBase = Bodies.rectangle(1851, 600, 42, 57, {
-        label: 'カップ',
-        // isStatic: true,
+      const cupbody = Bodies.rectangle(1840, 567, 42, 57, {
+        render: {
+          fillStyle: 'transparent'
+        }
+      });
+      const cupBottom = Bodies.rectangle(1840, 592, 20, 10, {
+        render: {
+          fillStyle: 'transparent'
+        }
+      });
+
+      const cup_kari = Body.create({
+        parts: [cupbody, cupBottom],
+        isStatic: true,
+        label: '湯呑',
         render: {
           sprite: {
             texture: '../img/game--01-tea.png',
-            yOffset: 0.06,
           },
         },
       });
 
-      World.add(this.Game.engine.world, cupBase);
+      const cup = Body.create({
+        parts: [cupbody, cupBottom, cup_kari],
+        label: '湯呑',
+      });
 
-      this.Game.goalSenceActive(bucho ,cupBase);
+      World.add(this.Game.engine.world, [cup]);
+
+      this.Game.goalSenceActive(bucho ,cupBottom);
 
       this.Game.start();
     },
@@ -62,18 +78,66 @@ export default class Stage {
 
       this.Game.createCrane();
 
-      const bucho_head = Bodies.rectangle(855, 736, 531, 270, {
-        label: '部長',
+      const bucho_head = Bodies.circle(1200, 370, 30, {
+        render: {
+          fillStyle: 'transparent'
+        }
+      });
+
+      const bucho_neck = Bodies.rectangle(1200, 420, 30, 40, {
+        render: {
+          fillStyle: 'transparent'
+        }
+      });
+
+      const bucho_body = Bodies.rectangle(1200, 670, 100, 470, {
+        isSensor: true,
+        render: {
+          fillStyle: 'transparent'
+        }
+      });
+
+      const bucho_kari = Body.create({
+        parts: [bucho_head, bucho_neck, bucho_body],
         isStatic: true,
+        label: '部長',
         render: {
           sprite: {
-            texture: '../img/game--01-bucho.png',
-            yOffset: 0.25,
+            texture: '../img/game--02-bucho.png',
+            xOffset: 0.08,
           },
         },
       });
 
-      World.add(this.Game.engine.world, [bucho_head]);
+      const bucho = Body.create({
+        isStatic: true,
+        parts: [bucho_head, bucho_neck, bucho_body, bucho_kari]
+      });
+
+      const buka = Bodies.rectangle(900, 700, 100, 550, {
+        isStatic: true,
+        isSensor: true,
+        render: {
+          sprite: {
+            texture: '../img/game--02-ol.png',
+            xOffset: 0.08,
+          },
+        },
+      });
+
+      const wig = Bodies.rectangle(1400, 700, 40, 20, {
+        frictionAir: 0.1,
+        render: {
+          sprite: {
+            texture: '../img/game--02-wig.png',
+            yOffset: -0.3,
+          },
+        },
+      });
+
+      World.add(this.Game.engine.world, [bucho, wig, buka]);
+
+      this.Game.goalSenceActive(bucho_head ,wig);
 
       this.Game.start();
     },
@@ -83,6 +147,17 @@ export default class Stage {
       this.Game.createRender();
       this.Game.createWalls();
 
+      const bucho = Bodies.rectangle(900, 700, 100, 550, {
+        isStatic: true,
+        isSensor: true,
+        render: {
+          sprite: {
+            // texture: '../img/game--03-bucho.png',
+          },
+        },
+      });
+
+      World.add(this.Game.engine.world, [bucho]);
       this.Game.createCrane();
 
       this.Game.start();
