@@ -37,19 +37,21 @@ export default class Stage {
 
       this.Game.createCrane('01');
 
-      const cupbody = Bodies.rectangle(1840, 567, 42, 57, {
+      const cupBody = Bodies.rectangle(1840, 567, 42, 57, {
+        isStatic: true,
         render: {
           fillStyle: 'transparent'
         }
       });
       const cupBottom = Bodies.rectangle(1840, 592, 20, 10, {
+        isStatic: true,
         render: {
           fillStyle: 'transparent'
         }
       });
 
       const cup_kari = Body.create({
-        parts: [cupbody, cupBottom],
+        parts: [cupBody, cupBottom],
         isStatic: true,
         label: '湯呑',
         render: {
@@ -60,7 +62,7 @@ export default class Stage {
       });
 
       const cup = Body.create({
-        parts: [cupbody, cupBottom, cup_kari],
+        parts: [cupBody, cupBottom, cup_kari],
         label: '湯呑',
       });
 
@@ -157,18 +159,64 @@ export default class Stage {
         },
       });
 
-      const bomb = Bodies.circle(900, 800, 70, {
+      World.add(this.Game.engine.world, [bucho]);
+      this.Game.createCrane();
+
+      const bomb = Bodies.circle(900, 800, 50, {
         render: {
           sprite: {
             texture: '../img/game--03-bomb.png',
             xScale: 1.2,
             yScale: 1.2,
+            xOffset: -0.1,
+            yOffset: 0.2,
           },
         },
       });
 
-      World.add(this.Game.engine.world, [bucho, bomb]);
-      this.Game.createCrane();
+      const aquariumWallL = Bodies.rectangle(1400, 740, 10, 260, {
+        isStatic: true,
+        render: {
+          fillStyle: 'transparent'
+        }
+      });
+
+      const aquariumWallR = Bodies.rectangle(1750, 740, 10, 260, {
+        isStatic: true,
+        render: {
+          fillStyle: 'transparent'
+        }
+      });
+
+      const aquariumA = Body.create({
+        parts: [aquariumWallL, aquariumWallR],
+        isStatic: true,
+        isSensor: true,
+        render: {
+          sprite: {
+            texture: '../img/game--03-aquarium-after.png',
+          },
+        },
+      });
+
+      const aquariumAfter = Body.create({
+        parts: [aquariumWallL, aquariumWallR, aquariumA],
+        isStatic: true,
+      });
+
+      const aquariumBefore = Bodies.rectangle(1560, 755, 350, 260, {
+        isStatic: true,
+        isSensor: true,
+        render: {
+          sprite: {
+            texture: '../img/game--03-aquarium-before.png',
+          },
+        },
+      });
+
+      World.add(this.Game.engine.world, [aquariumAfter, bomb, aquariumBefore]);
+
+      this.Game.goalSenceActive(bomb ,aquariumBefore);
 
       this.Game.start();
     },
