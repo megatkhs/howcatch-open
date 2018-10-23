@@ -147,17 +147,27 @@ export default class Stage {
       this.Game.createRender();
       this.Game.createWalls();
 
-      const bucho = Bodies.rectangle(900, 700, 100, 550, {
+      const bucho = Bodies.rectangle(900, 550, 100, 550, {
         isStatic: true,
         isSensor: true,
         render: {
           sprite: {
-            // texture: '../img/game--03-bucho.png',
+            texture: '../img/game--03-bucho.png',
           },
         },
       });
 
-      World.add(this.Game.engine.world, [bucho]);
+      const bomb = Bodies.circle(900, 800, 70, {
+        render: {
+          sprite: {
+            texture: '../img/game--03-bomb.png',
+            xScale: 1.2,
+            yScale: 1.2,
+          },
+        },
+      });
+
+      World.add(this.Game.engine.world, [bucho, bomb]);
       this.Game.createCrane();
 
       this.Game.start();
