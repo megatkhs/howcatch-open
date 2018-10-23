@@ -1,5 +1,5 @@
 /* tslint:disable:no-console */
-
+import store from './store';
 import { register } from 'register-service-worker';
 
 // Initialize Firebase
@@ -32,6 +32,7 @@ if (process.env.NODE_ENV === 'production') {
       console.log('Content has been cached for offline use.');
     },
     updated() {
+      store.state.updateNotice = true;
       console.log('New content is available; please refresh.');
     },
     offline() {

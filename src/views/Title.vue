@@ -3,12 +3,9 @@
     <img class="window-texture" src="../assets/title--window-texture.svg" alt="">
     <div class="touch-area">
       <img class="logo" src="../assets/logo.svg" alt="ハウキャッチ">
-      <p class="attention-text">まもなく公開</p>
-      <img class="attention-text" src="../assets/title--attention-text.svg" alt="tap to start">
+      <p class="attention-text">大変お待たせしております...<br>もう間もなくです...</p>
+      <p class="update-notice" v-if="update">ハウキャッチの更新があります！<br>タスクを終了してアプリを更新しましょう！</p>
     </div>
-    <button class="menu-open" @click="openMenu">
-      <font-awesome-icon icon="bars"/>
-    </button>
     <title-menu :flag="menuFlag" @closeMenu="closeMenu" @openAlart="openAlart" @closeAlart="closeAlart" @openNotice="openNotice"/>
     <alart-modal :flag="alartFlag" :message="alartMessage" :label="alartLabel" :callback="alartCallback" @closeAlart="closeAlart"/>
     <notice-modal :flag="noticeFlag" :message="noticeMessage" :callback="noticeCallback" @closeNotice="closeNotice"/>
@@ -29,58 +26,9 @@ import NoticeModal from '@/components/NoticeModal.vue';
   },
 })
 export default class Title extends Vue {
-  // data
-  public menuFlag: boolean = false;
-  public alartFlag: boolean = false;
-  public alartMessage: string = '';
-  public alartLabel: string = '';
-  public alartCallback: any = this.closeAlart;
-  public noticeFlag: boolean = false;
-  public noticeMessage: string = '';
-  public noticeCallback: any = this.closeNotice;
-
-  // methods
-  public gameStart() {
-    this.$router.push('/character');
-  }
-
-  public openMenu() {
-    this.menuFlag = true;
-  }
-
-  public closeMenu() {
-    this.menuFlag = false;
-  }
-
-  public openAlart(message: string, label: string, callback: any) {
-    this.alartMessage = message;
-    this.alartLabel = label;
-    this.alartCallback = callback;
-    this.alartFlag = true;
-  }
-
-  public closeAlart() {
-    this.alartFlag = false;
-  }
-
-  public openNotice(message: string, callback: any) {
-    this.noticeMessage = message;
-    this.noticeCallback = callback;
-    this.noticeFlag = true;
-  }
-
-  public closeNotice() {
-    this.noticeFlag = false;
-  }
-
-  public setTapToStartAction() {
-    this.$el.getElementsByClassName('touch-area')[0].addEventListener('click', () => {
-      this.gameStart();
-    });
-  }
-
-  // mounted
-  public mounted() {
+  // computed
+  get update() {
+    return this.$store.state.updateNotice;
   }
 }
 </script>
@@ -116,8 +64,22 @@ export default class Title extends Vue {
     left: 50%;
     text-align: center;
     font-size: 2.4rem;
+    width: 100%;
+    text-align: center;
     transform: translate(-50%, -50%);
     // animation: flashing 1s ease-out 0s infinite alternate none running;
+  }
+  
+  .update-notice {
+    position: absolute;
+    width: 100%;
+    top: 60%;
+    left: 0;
+    color: #fff;
+    line-height: 1.6;
+    padding: 1rem 0;
+    background-color: rgba(0, 0, 0, .7);
+    // animation: flashing 3s linear 0s infinite alternate none running;
   }
 
   .menu-open {
