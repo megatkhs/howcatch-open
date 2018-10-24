@@ -226,6 +226,32 @@ export default class Stage {
       this.Game.createRender();
       this.Game.createWalls();
 
+      const toiletWallL = Bodies.rectangle(400, 620, 10, 500, {
+        isStatic: true,
+      });
+
+      const toiletWallR = Bodies.rectangle(780, 620, 10, 500, {
+        isStatic: true,
+      });
+
+      const toiletWalls = Body.create({
+        parts: [toiletWallL, toiletWallR],
+        isStatic: true,
+        isSensor: true,
+        render: {
+          sprite: {
+            texture: '../img/game--04-bucho.png',
+            yOffset: 0.1
+          }
+        }
+      });
+
+      const toiletRoom = Body.create({
+        parts: [toiletWallL, toiletWallR ,toiletWalls],
+        isStatic: true
+      })
+
+      World.add(this.Game.engine.world, [toiletRoom]);
       this.Game.createCrane();
 
       this.Game.start();
