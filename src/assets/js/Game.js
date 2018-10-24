@@ -146,7 +146,7 @@ export default class Game {
         this.status = 'moveL';
         $leftBtn.style.opacity = .4;
         Events.on(this.engine, 'beforeUpdate', () => {
-          Body.setPosition(this.crane, { x: this.crane.position.x - 5, y: this.crane.position.y - 0});
+          Body.setPosition(this.crane, { x: this.crane.position.x - 10, y: this.crane.position.y - 0});
         });
       }
     });
@@ -164,7 +164,7 @@ export default class Game {
         this.status = 'moveR';
         $rightBtn.style.opacity = .4;
         Events.on(this.engine, 'beforeUpdate', () => {
-          Body.setPosition(this.crane, { x: this.crane.position.x + 5, y: this.crane.position.y - 0});
+          Body.setPosition(this.crane, { x: this.crane.position.x + 10, y: this.crane.position.y - 0});
         });
       }
     });
@@ -230,11 +230,11 @@ export default class Game {
       this.status = 'moveH';
       this.anime.pause();
       Events.on(this.engine, 'beforeUpdate', () => {
-        if (this.armAnimeCount < 21) {
-          Body.rotate(this.armL, -.05);
-          Body.setPosition(this.armL, { x: this.armL.position.x + 1.5, y: this.armL.position.y + 2});
-          Body.rotate(this.armR, .05);
-          Body.setPosition(this.armR, { x: this.armR.position.x - 1.5, y: this.armR.position.y + 2});
+        if (this.armAnimeCount < 11) {
+          Body.rotate(this.armL, -.1);
+          Body.setPosition(this.armL, { x: this.armL.position.x + 3, y: this.armL.position.y + 4});
+          Body.rotate(this.armR, .1);
+          Body.setPosition(this.armR, { x: this.armR.position.x - 3, y: this.armR.position.y + 4});
           this.armAnimeCount++;
         } else {
           this.holdingStatus = true;
@@ -270,10 +270,10 @@ export default class Game {
       this.status = 'moveRe';
       Events.on(this.engine, 'beforeUpdate', () => {
         if (this.armAnimeCount > 0) {
-          Body.rotate(this.armL, .05);
-          Body.setPosition(this.armL, { x: this.armL.position.x - 1.5, y: this.armL.position.y - 2});
-          Body.rotate(this.armR, -.05);
-          Body.setPosition(this.armR, { x: this.armR.position.x + 1.5, y: this.armR.position.y - 2});
+          Body.rotate(this.armL, .1);
+          Body.setPosition(this.armL, { x: this.armL.position.x - 3, y: this.armL.position.y - 4});
+          Body.rotate(this.armR, -.1);
+          Body.setPosition(this.armR, { x: this.armR.position.x + 3, y: this.armR.position.y - 4});
           this.armAnimeCount--;
         } else {
           Events.off(this.engine , 'beforeUpdate');
@@ -306,12 +306,10 @@ export default class Game {
         if (
           v.bodyA === this.head
           || v.bodyB === this.head
-          || v.bodyA === this.armL
-          || v.bodyB === this.armL
-          || v.bodyA === this.armR
-          || v.bodyB === this.armR
         ) {
-          this.craneHolding();
+          setTimeout(() => {
+            this.craneHolding();
+          }, 100);
         }
       });
     });
@@ -340,7 +338,6 @@ export default class Game {
   start() {
     Engine.run(this.engine);
     Render.run(this.render);
-    Runner.run(this.runner, this.engine);
     this.setEventListener();
     this.startedTime = new Date();
     this.status = 'wait';
@@ -348,9 +345,10 @@ export default class Game {
 
   end() {
     Events.off(this.engine, 'collisionStart');
-    Engine.clear(this.engine);
+    Events.off(this.engine, 'collisionEnd');
     Render.stop(this.render);
-    Runner.stop(this.runner);
+    World.clear(this.engine.world);
+    Engine.clear(this.engine);
     this.deleteEventlistener();
     $('canvas', this.target).remove();
   }
@@ -360,7 +358,6 @@ export default class Game {
     this.endedTime = new Date();
     const db = this.Vue.$store.state.db;
     const clear_time = this.endedTime - this.startedTime;
-    console.log(this.savedata.clear_time, clear_time)
     if (this.savedata.clear_time > clear_time || this.savedata.clear_time === 0) {
       db.savedata.update(this.savedata.id, {status: 1, clear_time});
     } else {

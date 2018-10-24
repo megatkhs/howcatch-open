@@ -1,7 +1,7 @@
 <template>
   <div class="title">
     <img class="window-texture" src="../assets/title--window-texture.svg" alt="">
-    <div class="touch-area" v-if="!update"/>
+    <div class="touch-area" v-if="!update" ref="touchArea"/>
     <img class="logo" src="../assets/logo.svg" alt="ハウキャッチ">
     <img class="attention-text" src="../assets/title--attention-text.svg" alt="tap to start" v-if="!update">
     <p class="game-version">ver.{{game_version}}</p>
@@ -83,7 +83,8 @@ export default class Title extends Vue {
   }
 
   public setTapToStartAction() {
-    this.$el.getElementsByClassName('touch-area')[0].addEventListener('click', () => {
+    const target: any = this.$refs.touchArea;
+    target.addEventListener('click', () => {
       this.gameStart();
     });
   }

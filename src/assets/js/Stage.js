@@ -254,6 +254,37 @@ export default class Stage {
       World.add(this.Game.engine.world, [toiletRoom]);
       this.Game.createCrane();
 
+      const rolls = [];
+
+      // トイレットペーパーのサイズ
+      const width = 72;
+      const height = 67;
+
+      let target;
+
+      for(let i = 5; i > 0; i--) {
+        for (let j = 0; j < i; j ++) {
+          const paper = Bodies.rectangle(1300 + width * (5 - i) * 0.5 + width * j, 450 + height * i + height / 2,
+            72, 67, {
+              render: {
+                sprite: {
+                  texture: (i === 4 && j === 3) ? '../img/game--04-paper-pink.png' : '../img/game--04-paper-white.png',
+                }
+              }
+            });
+          rolls.push(paper);
+          if (i === 4 && j === 3) {
+            target = paper;
+          }
+        }
+      }
+
+      console.log(target)
+
+      World.add(this.Game.engine.world, rolls);
+
+      this.Game.goalSenceActive(toiletWalls ,target);
+
       this.Game.start();
     },
     // stage 05
