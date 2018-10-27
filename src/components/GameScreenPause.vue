@@ -27,8 +27,7 @@ export default class GameScreenPause extends Vue {
 
   @Emit('onretry')
   public retryGame(): void {
-    this.Stage.Game.end();
-    this.closePause();
+    window.location.reload();
   }
 
   // methods

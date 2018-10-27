@@ -284,7 +284,7 @@ export default class Game {
     }
   }
 
-  goalSenceActive(BodyA, BodyB) {
+  goalSenceActive(BodyA, BodyB, callback) {
     Events.on(this.engine, 'collisionStart', (event) => {
       const pairs = event.pairs;
 
@@ -307,9 +307,11 @@ export default class Game {
           v.bodyA === this.head
           || v.bodyB === this.head
         ) {
-          setTimeout(() => {
-            this.craneHolding();
-          }, 100);
+          this.craneHolding();
+
+          if (typeof(callback) === "function") {
+            callback();
+          }
         }
       });
     });

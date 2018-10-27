@@ -1,5 +1,5 @@
 import {Engine, Render, Runner, Body, Bodies, Events, World} from 'matter-js';
-import $ from 'jquery';
+import anime from 'animejs';
 const Game = require('@/assets/js/Game.js');
 
 export default class Stage {
@@ -293,11 +293,74 @@ export default class Stage {
       this.Game.createRender();
       this.Game.createWalls();
 
-      const drawer = Bodies.rectangle(1100, 500, 300, 400);
+      const drawer = Bodies.rectangle(1500, 700, 400, 250, {
+        isStatic: true,
+        render: {
+          sprite: {
+            texture: '../img/game--05-drawer.png',
+            xScale: 2,
+            yScale: 2,
+            yOffset: -.1
+          }
+        }
+      });
 
-      World.add(this.Game.world, [drawer])
+      const girl = Bodies.rectangle(1000, 780, 100, 200, {
+        isStatic: true,
+        isSensor: true,
+        render: {
+          sprite: {
+            texture: '../img/game--05-friend.png',
+            xScale: 2,
+            yScale: 2,
+            yOffset: .1
+          }
+        }
+      });
+
+      World.add(this.Game.engine.world, [girl, drawer]);
 
       this.Game.createCrane();
+
+      const bearHead = Bodies.circle(1600, 500, 50, {
+        render: {
+          fillStyle: 'transparent'
+        }
+      });
+
+      const bearBody = Bodies.circle(1600, 600, 40, {
+        isSensor: true,
+        render: {
+          fillStyle: 'transparent'
+        }
+      });
+
+      const bearFoot = Bodies.rectangle(1600, 620, 80, 40, {
+        isSensor: true,
+        render: {
+          fillStyle: 'transparent'
+        }
+      });
+
+      const bear = Body.create({
+        parts: [bearHead, bearBody, bearFoot],
+        render: {
+          sprite: {
+            texture: '../img/game--05-doll.png',
+            xScale: 1.5,
+            yScale: 1.5,
+            yOffset: -.1
+          }
+        }
+      });
+
+      const doll = Body.create({
+        parts: [bearHead, bearBody, bearFoot, bear]
+      });
+
+      World.add(this.Game.engine.world, [doll]);
+
+      this.Game.goalSenceActive(girl ,bear);
 
       this.Game.start();
     },
@@ -306,8 +369,101 @@ export default class Stage {
       this.$refs.canvasBackground.src = '../img/game--06-background.png';
       this.Game.createRender();
       this.Game.createWalls();
+      
+      const cageWallL = Bodies.rectangle(1450, 740, 10, 260, {
+        isStatic: true,
+        render: {
+          fillStyle: 'transparent'
+        }
+      });
+
+      const cageWallR = Bodies.rectangle(1700, 740, 10, 260, {
+        isStatic: true,
+        render: {
+          fillStyle: 'transparent'
+        }
+      });
+
+      const cageA = Body.create({
+        parts: [cageWallL, cageWallR],
+        isStatic: true,
+        isSensor: true,
+        render: {
+          sprite: {
+            texture: '../img/game--06-cage-after.png',
+            xScale: 1.5,
+            yScale: 1.5,
+          },
+        },
+      });
+
+      const cageAfter = Body.create({
+        parts: [cageWallL, cageWallR, cageA],
+        isStatic: true,
+      });
+
+      const girl = Bodies.rectangle(500, 780, 100, 200, {
+        isStatic: true,
+        isSensor: true,
+        render: {
+          sprite: {
+            texture: '../img/game--06-friend.png',
+            xScale: 2,
+            yScale: 2,
+            yOffset: .1
+          }
+        }
+      });
+
+      World.add(this.Game.engine.world, [cageAfter, girl]);
 
       this.Game.createCrane();
+
+      const dog = Bodies.rectangle(800, 830, 80, 80, {
+        // isStatic: true,
+        render: {
+          sprite: {
+            texture: '../img/game--06-dog.png',
+            xScale: 2,
+            yScale: 2,
+          }
+        }
+      });
+
+      const pos = {
+        x: dog.position.x,
+        y: dog.position.y,
+      }
+
+      const dogAnime = anime({
+        targets: pos,
+        x: 1200,
+        duration: 1000,
+        easing: 'easeInOutCirc',
+        direction: 'alternate',
+        loop: true,
+        update: () => {
+          Body.setPosition(dog, {x: pos.x, y: pos.y});
+        },
+      });
+
+      const cageBefore = Bodies.rectangle(1575, 740, 350, 260, {
+        isStatic: true,
+        isSensor: true,
+        render: {
+          sprite: {
+            texture: '../img/game--06-cage-before.png',
+            xScale: 1.5,
+            yScale: 1.5,
+          },
+        },
+      });
+
+      World.add(this.Game.engine.world, [dog, cageBefore]);
+
+      this.Game.goalSenceActive(dog, cageA, () => {
+        dogAnime.pause();
+      });
 
       this.Game.start();
     },

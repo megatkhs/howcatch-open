@@ -1,7 +1,7 @@
 <template>
   <div class="clear">
     <img :src="`../img/clear--${slice(this.$route.params.id)}-image.svg`" alt="">
-    <router-link class="character--enter" :to="{name: 'stage', params: {id: 1}}">ENTER</router-link>
+    <button class="clear--enter" @click="enterStageList">ENTER</button>
   </div>
 </template>
 
@@ -21,6 +21,10 @@ export default class ClearScreen extends Vue {
     };
   }
 
+  get selectedCharacter(): string {
+    return this.$store.state.characterCurrentId + 1;
+  }
+
   // router
   public beforeRouteEnter(to: any, from: any, next: any) {
     if (from.name === 'game') {
@@ -28,6 +32,15 @@ export default class ClearScreen extends Vue {
     } else {
       next('/');
     }
+  }
+
+  public enterStageList() {
+    this.$router.push({
+      name: 'stage',
+      params: {
+        id: this.selectedCharacter,
+      },
+    });
   }
 }
 </script>

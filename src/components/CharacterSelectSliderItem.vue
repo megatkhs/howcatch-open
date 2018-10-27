@@ -4,7 +4,7 @@
     <img class="character--image" :src="`./img/character--${sliceId}-image.png`" alt="" @error="srcError">
     <img class="character--title" :src="`./img/character--${sliceId}-title.svg`" alt="" @error="srcError">
     <p class="character--designer">character designed by {{ item.designer }}</p>
-    <router-link class="character--enter" :to="{name: 'stage', params: {id: item.id}}">ENTER</router-link>
+    <button class="character--enter" @click="enterStageList">ENTER</button>
   </li>
 </template>
 
@@ -14,7 +14,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
 export default class CharacterSelectSliderItem extends Vue {
   // props
-  @Prop() public item!: ({id: number});
+  @Prop() public item!: ({id: string});
   @Prop() public index!: number;
 
   // computed
@@ -34,6 +34,15 @@ export default class CharacterSelectSliderItem extends Vue {
       const type: string = kind.split('.')[0];
       target.src = `./img/character--00-${type}.svg`;
     }
+  }
+
+  public enterStageList() {
+    this.$router.push({
+      name: 'stage',
+      params: {
+        id: this.item.id,
+      },
+    });
   }
 }
 </script>
@@ -100,11 +109,13 @@ export default class CharacterSelectSliderItem extends Vue {
       background-color: #0af;
       font-size: 3.2rem;
       font-weight: bold;
+      line-height: 1;
       color: #ffffff;
       text-decoration: none;
       border: .4rem solid #fff;
       border-radius: .4rem;
       transform: translate(-50%, 50%);
+      cursor: pointer;
     }
   }
 
