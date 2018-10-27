@@ -162,7 +162,7 @@ export default class Stage {
       World.add(this.Game.engine.world, [bucho]);
       this.Game.createCrane();
 
-      const bomb = Bodies.circle(900, 800, 50, {
+      const bomb = Bodies.circle(500, 800, 50, {
         render: {
           sprite: {
             texture: '../img/game--03-bomb.png',
@@ -292,6 +292,10 @@ export default class Stage {
       this.$refs.canvasBackground.src = '../img/game--05-background.png';
       this.Game.createRender();
       this.Game.createWalls();
+
+      const drawer = Bodies.rectangle(1100, 500, 300, 400);
+
+      World.add(this.Game.world, [drawer])
 
       this.Game.createCrane();
 

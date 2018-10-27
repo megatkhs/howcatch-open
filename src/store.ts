@@ -23,7 +23,56 @@ export default new Vuex.Store({
       },
     ],
     characterCurrentId: 0,
-    savedata: [],
+    savedata: [
+      {
+        stage_id: 1,
+        character_id: 1,
+        status: 0,
+        clear_time: 0
+      },
+      {
+        stage_id: 2,
+        character_id: 1,
+        status: 0,
+        clear_time: 0
+      },
+      {
+        stage_id: 3,
+        character_id: 1,
+        status: 0,
+        clear_time: 0
+      },
+      {
+        stage_id: 4,
+        character_id: 1,
+        status: 0,
+        clear_time: 0
+      },
+      {
+        stage_id: 5,
+        character_id: 2,
+        status: 0,
+        clear_time: 0
+      },
+      {
+        stage_id: 6,
+        character_id: 2,
+        status: 0,
+        clear_time: 0
+      },
+      {
+        stage_id: 7,
+        character_id: 2,
+        status: 0,
+        clear_time: 0
+      },
+      {
+        stage_id: 8,
+        character_id: 2,
+        status: 0,
+        clear_time: 0
+      }
+    ],
     updateNotice: false,
   },
   mutations: {
@@ -50,6 +99,7 @@ export default new Vuex.Store({
         .then((datas: any) => {
           state.savedata = datas;
         });
+
 
     },
     setCharacterCurrentId(state: any, num: number) {
