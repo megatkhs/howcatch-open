@@ -473,7 +473,15 @@ export default class Stage {
       this.Game.createRender();
       this.Game.createWalls();
 
+      const hangar = Bodies.circle(1700, 600, 10, {
+        isStatic: true
+      });
+
+      World.add(this.Game.engine.world, [hangar])
+
       this.Game.createCrane();
+
+      const hook;
 
       this.Game.start();
     },
