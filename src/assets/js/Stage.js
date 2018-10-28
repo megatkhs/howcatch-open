@@ -1,4 +1,4 @@
-import {Engine, Render, Runner, Body, Bodies, Events, World} from 'matter-js';
+import {Engine, Render, Runner, Body, Bodies, Composites, Events, World} from 'matter-js';
 import anime from 'animejs';
 const Game = require('@/assets/js/Game.js');
 
@@ -476,12 +476,70 @@ export default class Stage {
       const hangar = Bodies.circle(1700, 600, 10, {
         isStatic: true
       });
+      
+      const girl = Bodies.rectangle(700, 820, 100, 100, {
+        isStatic: true,
+        render: {
+          sprite: {
+            texture: '../img/game--07-friend.png',
+            xScale: 2,
+            yScale: 2,
+            yOffset: .3
+          }
+        }
+      });
 
-      World.add(this.Game.engine.world, [hangar])
+      World.add(this.Game.engine.world, [hangar, girl]);
 
       this.Game.createCrane();
 
-      const hook;
+      const hookT = Bodies.rectangle(1700, 570, 60, 20, {
+        render: {
+          fillStyle: 'transparent'
+        }
+      });
+
+      const hookL = Bodies.rectangle(1680, 580, 20, 40, {
+        render: {
+          fillStyle: 'transparent'
+        }
+      });
+
+      const hookR = Bodies.rectangle(1720, 600, 20, 80, {
+        render: {
+          fillStyle: 'transparent'
+        }
+      });
+
+      const hookB = Bodies.rectangle(1690, 630, 80, 20, {
+        isSensor: true,
+        render: {
+          fillStyle: 'transparent'
+        }
+      });
+
+      const hook = Body.create({
+        parts: [hookT, hookL, hookR, hookB],
+        isStatic: true,
+        isSensor: true,
+        render: {
+          sprite: {
+            texture: '../img/game--07-close.png',
+            xScale: 2,
+            yScale: 2,
+            xOffset: -.1,
+            yOffset: -.3,
+          }
+        }
+      });
+
+      const wear = Body.create({
+        parts: [hookT, hookL, hookR, hookB, hook],
+      });
+
+      World.add(this.Game.engine.world, [wear]);
+
+      this.Game.goalSenceActive(girl, hook);
 
       this.Game.start();
     },
@@ -492,10 +550,124 @@ export default class Stage {
       this.Game.createWalls();
 
       this.Game.createCrane();
+      
+      const girl = Bodies.rectangle(700, 780, 150, 180, {
+        isStatic: true,
+        render: {
+          sprite: {
+            texture: '../img/game--08-friend.png',
+            xScale: 2,
+            yScale: 2,
+            yOffset: .1
+          }
+        }
+      });
+
+      const sensor = Bodies.rectangle(700, 680, 150, 60, {
+        isStatic: true,
+        isSensor: true,
+        render: {
+          fillStyle: 'transparent'
+        }
+      });
+
+      World.add(this.Game.engine.world, [girl, sensor]);
+
+      const items = [];
+      const targets = [];
+
+      for(let i = 0; i < 20; i ++) {
+        let item;
+        if (i % 7 !== 0) {
+          item = Bodies.circle(this.randomizer(1820, 100), 820, 20, {
+            render: {
+              sprite: {
+                texture: '../img/game--08-redflower.png',
+                xScale: 2,
+                yScale: 2
+              }
+            }
+          })
+        } else {
+          item = Bodies.circle(this.randomizer(1820, 100), 820, 20, {
+            render: {
+              sprite: {
+                texture: '../img/game--08-whiteflower.png',
+                xScale: 2,
+                yScale: 2
+              }
+            }
+          })
+          targets.push(item);
+        }
+        items.push(item);
+      }
+
+      World.add(this.Game.engine.world, items);
+
+      let counter = 0;
+      
+      Events.on(this.Game.engine, 'collisionStart', (event) => {
+        const pairs = event.pairs;
+
+        pairs.forEach(v => {
+          targets.forEach(body => {
+            if (
+              v.bodyA === body
+              && v.bodyB === sensor
+              || v.bodyA === sensor
+              && v.bodyB === body
+            ) {
+              counter++;
+              
+              if (counter >= 3) {
+                this.Game.clearJudge = true;
+                this.Game.clearTimer = setTimeout(() => {
+                  if (this.Game.clearJudge === true) {
+                    this.Game.clear();
+                  }
+                }, 1000);
+              }
+            }
+          });
+
+          if (
+            v.bodyA === this.Game.head
+            || v.bodyB === this.Game.head
+          ) {
+            this.Game.craneHolding();
+          }
+        });
+      });
+
+      Events.on(this.Game.engine, 'collisionEnd', (event) => {
+        const pairs = event.pairs;
+
+        pairs.forEach(v => {
+          targets.forEach(body => {
+            if (
+              v.bodyA === body
+              && v.bodyB === sensor
+              || v.bodyA === sensor
+              && v.bodyB === body
+            ) {
+              counter--;
+              
+              if (counter < 3) {
+                this.Game.clearJudge = false;
+                if (this.Game.clearTimer !== false) {
+                  clearTimeout(this.Game.clearTimer)
+                }
+              }
+            }
+          });
+        });
+      });
 
       this.Game.start();
     },
   ];
+
   constructor(Vue, savedata) {
     this.$refs = Vue.$refs;
     this.Game = new Game.default(Vue, savedata);
@@ -506,5 +678,15 @@ export default class Stage {
 
   gameStart() {
     this.stageList[this.stageId - 1]();
+  }
+
+  randomizer(max, min) {
+    let num = 0;
+    if (typeof(min) === 'number') {
+      num = Math.floor(Math.random() * (max - min)) + min;
+    } else {
+      num = Math.floor(Math.random() * max);
+    }
+    return num;
   }
 }

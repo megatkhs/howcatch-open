@@ -7,7 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     dbName: 'howcatch',
-    version: '0.9.8',
+    version: '0.9.10',
     characters: [
       {
         id: 1,

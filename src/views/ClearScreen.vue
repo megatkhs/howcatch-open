@@ -1,6 +1,6 @@
 <template>
   <div class="clear">
-    <img :src="`../img/clear--${slice(this.$route.params.id)}-image.svg`" alt="">
+    <img :src="clearSrc" alt="" @error="altSrc">
     <button class="clear--enter" @click="enterStageList">ENTER</button>
   </div>
 </template>
@@ -14,9 +14,12 @@ Component.registerHooks([
 
 @Component
 export default class ClearScreen extends Vue {
+  // data
+  public clearSrc: string = '';
+
   // computed
   get slice() {
-    return (num: number) => {
+    return (num: any) => {
       return ('00' + num).slice(-2);
     };
   }
@@ -41,6 +44,15 @@ export default class ClearScreen extends Vue {
         id: this.selectedCharacter,
       },
     });
+  }
+
+  public altSrc(): void {
+    this.clearSrc = `../img/clear--${this.slice(this.$route.params.id)}-image.png`;
+  }
+
+  // lifesycle: created
+  public created() {
+    this.clearSrc = `../img/clear--${this.slice(this.$route.params.id)}-image.svg`;
   }
 }
 </script>
