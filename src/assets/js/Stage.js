@@ -668,10 +668,10 @@ export default class Stage {
     },
   ];
 
-  constructor(Vue, savedata) {
+  constructor(Vue, selectData) {
     this.$refs = Vue.$refs;
-    this.Game = new Game.default(Vue, savedata);
-    this.stageId = savedata.stage_id;
+    this.Game = new Game.default(Vue, selectData);
+    this.stageId = selectData.stage_id;
 
     this.gameStart();
   }

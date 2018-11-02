@@ -3,9 +3,9 @@ import $ from 'jquery';
 import anime from 'animejs';
 
 export default class Game {
-  constructor(Vue, savedata) {
+  constructor(Vue, selectData) {
     this.Vue = Vue;
-    this.savedata = savedata;
+    this.selectData = selectData;
     this.$refs = Vue.$refs;
     this.target = Vue.$refs.canvasArea;
     this.init();
@@ -66,7 +66,7 @@ export default class Game {
   }
 
   createCrane(custom_id) {
-    const id = custom_id ? custom_id : ('00' + this.savedata.character_id).slice(-2);
+    const id = custom_id ? custom_id : ('00' + this.selectData.character_id).slice(-2);
     const pole = Bodies.rectangle(200, -450, 20, 1000, {
       label: 'ポール',
       render: {
@@ -358,6 +358,13 @@ export default class Game {
   clear() {
     this.end();
     this.endedTime = new Date();
+
+    this.Vue.$store.state.savedata.forEach((v) => {
+      if (v.stage_id === Number(this.selectData.stage_id)) {
+        this.savedata = v;
+      }
+    });
+
     const db = this.Vue.$store.state.db;
     const clear_time = this.endedTime - this.startedTime;
     if (this.savedata.clear_time > clear_time || this.savedata.clear_time === 0) {

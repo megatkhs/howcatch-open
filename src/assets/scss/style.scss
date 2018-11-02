@@ -41,6 +41,7 @@ body {
 button {
   font-family: 'M PLUS Rounded 1c', 'ヒラギノ角ゴ', '游ゴシック', 'メイリオ', sans-serif;
   color: #333;
+  border-radius: none;
 }
 
 img {
@@ -59,4 +60,10 @@ canvas {
   position: relative;
   z-index: 0;
   width: 100%;
+}
+
+.cf::after {
+  content: "";
+  display: block;
+  clear: both;
 }

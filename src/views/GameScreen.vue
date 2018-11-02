@@ -24,7 +24,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import GameScreenPause from '@/components/GameScreenPause.vue';
-import router from '@/router';
+import store from '@/store';
 const Stage = require('@/assets/js/Stage.js');
 
 Component.registerHooks([
@@ -50,14 +50,11 @@ export default class GameScreen extends Vue {
     this.pauseFlag = false;
   }
 
-  public async setGame() {
-    let savedata;
-    await this.$store.state.savedata.forEach((v: any) => {
-      if (v.stage_id === Number(this.$route.params.id)) {
-        savedata = v;
-      }
+  public setGame() {    
+    this.Stage = new Stage.default(this, {
+      character_id: this.selectedCharacter.id,
+      stage_id: this.$route.params.id
     });
-    this.Stage = new Stage.default(this, savedata);
   }
 
   // computed
@@ -67,9 +64,45 @@ export default class GameScreen extends Vue {
     };
   }
 
+  get selectedCharacter() {
+    return this.$store.state.characters[this.$store.state.characterCurrentId];
+  }
+
   // mounted
   public mounted() {
     this.setGame();
+  }
+
+  // lifesycle: beforeRouteEnter
+  public beforeRouteEnter(to: any, from: any, next: any) {
+    const stages = store.state.characters[store.state.characterCurrentId].stages;
+    const allSavedata = store.state.savedata;
+
+    const stagesSavedata: any = [];
+
+    allSavedata.forEach((v: any) => {
+      stages.forEach((id: any) => {
+        if (v.stage_id === id) {
+          stagesSavedata.push(v);
+        }
+      })
+    });
+
+    let cleared = stagesSavedata[0];
+
+    stagesSavedata.forEach((v: any) => {
+      if (v.status === 1) {
+        cleared = v.stage_id;
+      }
+    });
+
+    if (
+      from.name === 'stage' && cleared + 1 >= to.params.id ||
+      from.name === 'clear' && cleared + 1 >= to.params.id ) {
+      next();
+    } else {
+      next('/');
+    }
   }
 }
 </script>
@@ -133,7 +166,8 @@ export default class GameScreen extends Vue {
   }
 }
 
-.stage-to-game {
+.stage-to-game,
+.clear-to-game {
   &-enter {
     opacity: 0;
 
@@ -143,7 +177,8 @@ export default class GameScreen extends Vue {
   }
 }
 
-.game-to-stage {
+.game-to-stage,
+.game-to-clear {
   &-leave {
     &-to {
       opacity: 0;

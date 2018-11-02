@@ -7,7 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     dbName: 'howcatch',
-    version: '0.9.10',
+    version: '1.0.0',
     characters: [
       {
         id: 1,
@@ -26,49 +26,41 @@ export default new Vuex.Store({
     savedata: [
       {
         stage_id: 1,
-        character_id: 1,
         status: 0,
         clear_time: 0
       },
       {
         stage_id: 2,
-        character_id: 1,
         status: 0,
         clear_time: 0
       },
       {
         stage_id: 3,
-        character_id: 1,
         status: 0,
         clear_time: 0
       },
       {
         stage_id: 4,
-        character_id: 1,
         status: 0,
         clear_time: 0
       },
       {
         stage_id: 5,
-        character_id: 2,
         status: 0,
         clear_time: 0
       },
       {
         stage_id: 6,
-        character_id: 2,
         status: 0,
         clear_time: 0
       },
       {
         stage_id: 7,
-        character_id: 2,
         status: 0,
         clear_time: 0
       },
       {
         stage_id: 8,
-        character_id: 2,
         status: 0,
         clear_time: 0
       }
@@ -80,15 +72,14 @@ export default new Vuex.Store({
       // Indexed database
       state.db = new Dexie(state.dbName);
 
-      state.db.version(1).stores({
-        savedata: "++id, &stage_id, character_id, status, clear_time"
+      state.db.version(2).stores({
+        savedata: "++id, &stage_id, status, clear_time"
       })
 
-      state.characters.forEach((v: any, i: number) => {
+      state.characters.forEach((v: any) => {
         v.stages.forEach((val: any) => {
           state.db.savedata.put({
             stage_id: val,
-            character_id: i + 1,
             status: 0,
             clear_time: 0
           });
@@ -99,7 +90,6 @@ export default new Vuex.Store({
         .then((datas: any) => {
           state.savedata = datas;
         });
-
 
     },
     setCharacterCurrentId(state: any, num: number) {

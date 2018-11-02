@@ -143,6 +143,7 @@ export default class Title extends Vue {
     top: 60%;
     left: 0;
     color: #fff;
+    font-size: 1.4rem;
     line-height: 1.6;
     padding: 1rem 0;
     background-color: rgba(0, 0, 0, .6);
@@ -157,8 +158,11 @@ export default class Title extends Vue {
     padding: .5rem;
     font-size: 3.2rem;
     line-height: 1;
+    opacity: .6;
     cursor: pointer;
     transition: 100ms;
+    background: none;
+    border: none;
 
     &:hover,
     &:focus {

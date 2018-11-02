@@ -5,8 +5,8 @@
       <div class="alart--modal-window">
         <div class="message" v-html="message"/>
         <div class="alart--modal-buttons">
-          <button @click="runCallback">{{ label }}</button>
-          <button @click="closeAlart">キャンセル</button>
+          <button class="ok" @click="runCallback">{{ label }}</button>
+          <button class="cancel" @click="closeAlart">キャンセル</button>
         </div>
       </div>
     </div>
@@ -56,18 +56,21 @@ export default class AlartModal extends Vue {
       top: 0;
       left: 0;
       background-color: #000;
-      opacity: .6;
+      opacity: .8;
     }
 
     &-window {
       position: relative;
       min-width: 30rem;
       max-width: 100%;
-      background-color: #fff;
-      box-shadow: 0 5px 2rem 5px rgba(0, 0, 0, .1);
+      border-radius: .2rem;
+      overflow: hidden;
 
       .message {
         padding: 4rem 3rem 2rem;
+        color: #fff;
+        line-height: 1.2;
+        text-shadow: 0 .1rem 1rem rgba(0, 0, 0, 0.6);
 
         p:nth-last-of-type(n + 2) {
           margin-bottom: 1rem;
@@ -84,12 +87,11 @@ export default class AlartModal extends Vue {
     &-buttons {
       padding: 1rem 2rem;
       height: 5rem;
-      background-color: #3d96df;
       box-sizing: content-box;
 
       button {
         display: inline-block;
-        width: 50%;
+        width: calc(50% - .5rem);
         height: 100%;
         font-size: 1.4rem;
         transition: 100ms;
@@ -103,6 +105,21 @@ export default class AlartModal extends Vue {
 
         &:active {
           transform: scale(.95);
+        }
+
+        &.ok {
+          background-color: #c24;
+          color: #fff;
+          border: none;
+          box-shadow: 0 .1rem .5rem .1rem rgba(0, 0, 0, .2);
+          margin-right: 1rem;
+        }
+
+        &.cancel {
+          background-color: #0af;
+          color: #fff;
+          border: none;
+          box-shadow: 0 .1rem .5rem .1rem rgba(0, 0, 0, .2);
         }
       }
     }

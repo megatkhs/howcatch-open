@@ -15,7 +15,7 @@
             :callback="closeMenu"
           /> -->
           <title-menu-item
-            className="title--menu-list-item"
+            className="title--menu-list-item delete"
             label="データを削除する"
             :callback="deletePlayData"
           />
@@ -110,20 +110,19 @@ export default class TitleMenu extends Vue {
       top: 0;
       left: 0;
       background-color: #000;
-      opacity: .6;
+      opacity: .8;
     }
 
     &-window {
       position: relative;
       min-width: 30rem;
       max-width: 100%;
-      background-color: #fff;
-      box-shadow: 0 5px 2rem 5px rgba(0, 0, 0, .1);
+      padding: 0 2rem;
     }
 
     &-list {
       list-style: none;
-      padding: 2rem 2rem 1rem;
+      padding: 0 0 2rem;
 
       &-item {
         width: 100%;
@@ -138,6 +137,10 @@ export default class TitleMenu extends Vue {
           width: 100%;
           height: 100%;
           font-size: 1.4rem;
+          background-color: #0af;
+          color: #fff;
+          border: none;
+          box-shadow: 0 .1rem .5rem .1rem rgba(0, 0, 0, .2);
           transition: 100ms;
 
           &:hover,
@@ -151,13 +154,17 @@ export default class TitleMenu extends Vue {
             transform: scale(.95);
           }
         }
+
+        &.delete {
+          button {
+            background-color: #cc2046;
+          }
+        }
       }
     }
 
     &-close {
-      padding: 1rem 2rem;
       height: 5rem;
-      background-color: #3d96df;
       box-sizing: content-box;
 
       button {
@@ -165,6 +172,10 @@ export default class TitleMenu extends Vue {
         width: 100%;
         height: 100%;
         font-size: 1.4rem;
+        background-color: #fafafa;
+        color: #333;
+        border: none;
+        box-shadow: 0 .1rem .5rem .1rem rgba(0, 0, 0, .2);
         transition: 100ms;
 
         &:hover,

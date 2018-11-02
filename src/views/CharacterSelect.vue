@@ -49,11 +49,6 @@ export default class CharacterSelect extends Vue {
       next('/');
     }
   }
-
-  public beforeRouteLeave(to: any, from: any, next: any) {
-    this.$store.commit('setCharacterCurrentId', this.$data.pageIndex);
-    next();
-  }
 }
 </script>
 

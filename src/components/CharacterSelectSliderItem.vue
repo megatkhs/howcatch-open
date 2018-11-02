@@ -37,6 +37,7 @@ export default class CharacterSelectSliderItem extends Vue {
   }
 
   public enterStageList() {
+    this.$store.commit('setCharacterCurrentId', this.index);
     this.$router.push({
       name: 'stage',
       params: {

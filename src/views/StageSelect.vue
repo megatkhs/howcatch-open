@@ -281,7 +281,8 @@ export default class StageSelect extends Vue {
   }
 }
 
-.game-to-stage {
+.game-to-stage,
+.clear-to-stage {
   &-enter {
     opacity: 0;
 

@@ -54,18 +54,19 @@ export default class NoticeModal extends Vue {
       top: 0;
       left: 0;
       background-color: #000;
-      opacity: .6;
+      opacity: .8;
     }
 
     &-window {
       position: relative;
       min-width: 30rem;
       max-width: 100%;
-      background-color: #fff;
-      box-shadow: 0 5px 2rem 5px rgba(0, 0, 0, .1);
 
       .message {
         padding: 4rem 3rem 2rem;
+        color: #fff;
+        line-height: 1.2;
+        text-shadow: 0 .1rem 1rem rgba(0, 0, 0, 0.6);
 
         p:nth-last-of-type(n + 2) {
           margin-bottom: 1rem;
@@ -82,7 +83,6 @@ export default class NoticeModal extends Vue {
     &-buttons {
       padding: 1rem 2rem;
       height: 5rem;
-      background-color: #3d96df;
       box-sizing: content-box;
 
       button {
@@ -90,6 +90,10 @@ export default class NoticeModal extends Vue {
         width: 100%;
         height: 100%;
         font-size: 1.4rem;
+        background-color: #fafafa;
+        color: #333;
+        border: none;
+        box-shadow: 0 .1rem .5rem .1rem rgba(0, 0, 0, .2);
         transition: 100ms;
 
         &:hover,
