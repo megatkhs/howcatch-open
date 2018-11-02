@@ -37,13 +37,6 @@ export default class App extends Vue {
     }
   }
 
-  public afterEnter(): void {
-    if (this.transitionName === 'launch-game' || this.transitionName === 'back-to-title') {
-      const screen: any = this.$refs.screen;
-      screen.setTapToStartAction();
-    }
-  }
-
   // watch
   @Watch('$route')
   public onRouteChange(to: any, from: any): void {
