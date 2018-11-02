@@ -1,7 +1,6 @@
 <template>
   <div class="title">
     <img class="window-texture" src="../assets/title--window-texture.svg" alt="">
-<<<<<<< HEAD
     <div class="touch-area" v-if="!update" ref="touchArea"/>
     <img class="logo" src="../assets/logo.svg" alt="ハウキャッチ">
     <img class="attention-text" src="../assets/title--attention-text.svg" alt="tap to start" v-if="!update">
@@ -30,7 +29,6 @@ import NoticeModal from '@/components/NoticeModal.vue';
   },
 })
 export default class Title extends Vue {
-<<<<<<< HEAD
   // data
   public menuFlag: boolean = false;
   public alartFlag: boolean = false;
